@@ -1,54 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-
-function sanitize(s?: string, max=200) {
-  if (!s) return null;
-  const v = s.toString().trim();
-  return v ? v.slice(0, max) : null;
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method === 'OPTIONS') {
-    // CORS preflight
-    res.setHeader('Access-Control-Allow-Origin', 'https://<your-gh-id>.github.io');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
-  }
-
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST, OPTIONS');
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
-
-  // CORS (필요 시 정확한 도메인으로 제한)
-  res.setHeader('Access-Control-Allow-Origin', 'https://<your-gh-id>.github.io');
-
-  try {
-    const { name, phone, message, guests } = req.body || {};
-    const clean = {
-      name: sanitize(name, 60),
-      phone: sanitize(phone, 40),
-      message: sanitize(message, 1000),
-      guests: Number.isInteger(guests) ? guests : 1,
-      ua: sanitize(req.headers['user-agent'] as string, 200),
-      ip: sanitize((req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket?.remoteAddress || '', 60),
-    };
-    if (!clean.name) return res.status(400).json({ error: 'name is required' });
-
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE!
-    );
-    const { data, error } = await supabase
-      .from('rsvps')
-      .insert([clean])
-      .select('id, created_at')
-      .single();
-
-    if (error) return res.status(500).json({ error: 'DB insert failed' });
-    return res.status(201).json({ id: data.id, created_at: data.created_at });
-  } catch (e) {
-    return res.status(500).json({ error: 'Server error' });
-  }
-}
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>테스트</title>
+<body style="font:16px/1.5 system-ui;padding:24px">
+  <h1>GitHub Pages 테스트 OK</h1>
+  <p>이게 보이면 배포/경로는 정상입니다.</p>
+</body></html>
