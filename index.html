@@ -1,7 +1,249 @@
 <!doctype html>
-<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>테스트</title>
-<body style="font:16px/1.5 system-ui;padding:24px">
-  <h1>GitHub Pages 테스트 OK</h1>
-  <p>이게 보이면 배포/경로는 정상입니다.</p>
-</body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[이름A & 이름B] 모바일 청첩장</title>
+  <!-- Open Graph / KakaoTalk 미리보기 -->
+  <meta property="og:title" content="[이름A & 이름B] 결혼식에 초대합니다" />
+  <meta property="og:description" content="[YYYY.MM.DD (요일) HH:MM] | [예식장 이름/홀명]" />
+  <meta property="og:image" content="https://example.com/cover.jpg" />
+  <meta property="og:url" content="https://example.com" />
+  <meta property="og:type" content="website" />
+
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fffdfa;--ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    .wrap{max-width:720px;margin:0 auto}
+    .hero{position:relative}
+    .hero img{width:100%;height:58vh;object-fit:cover}
+    .badge{position:absolute;inset:auto 16px 16px auto;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+    .section{padding:28px 16px}
+    .title{font-weight:700;font-size:22px;margin:0 0 12px}
+    .eyebrow{font-size:12px;color:#64748b;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+    .muted{color:var(--sub)}
+    .grid{display:grid;gap:12px}
+    .grid.two{grid-template-columns:1fr 1fr}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;text-decoration:none}
+    .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+    .list{margin:12px 0 0;padding:0;list-style:none}
+    .list li{padding:10px 0;border-top:1px dashed var(--line);display:flex;justify-content:space-between;gap:12px}
+    .kv{display:flex;justify-content:space-between;gap:12px}
+    .kv strong{font-weight:600}
+    .note{font-size:14px;color:#475569}
+    .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
+    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
+    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
+    .sticky-share .bar{max-width:720px;margin:0 auto;display:flex;gap:8px;padding:10px 12px}
+    .field{display:grid;gap:6px}
+    .field input,.field textarea{width:100%;padding:12px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .map{border:0;width:100%;height:280px;border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <header class="hero">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop" alt="커버 이미지" />
+      <div class="badge">[YYYY.MM.DD] [HH:MM] • [예식장]</div>
+    </header>
+
+    <!-- 인사말 / 커플 소개 -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">Invitation</p>
+        <h1 class="title">[이름A] & [이름B]의 결혼식에 초대합니다</h1>
+        <p class="muted">소중한 분들을 모시고 저희 두 사람의 새로운 시작을 함께 나누고자 합니다. 따뜻한 마음으로 축복해 주세요.</p>
+      </div>
+    </section>
+
+    <!-- 일정/장소 핵심 정보 -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">When & Where</p>
+        <div class="grid two">
+          <div>
+            <div class="muted">일시</div>
+            <h3 style="margin:6px 0 0">YYYY.MM.DD (요일) • HH:MM</h3>
+          </div>
+          <div>
+            <div class="muted">장소</div>
+            <h3 style="margin:6px 0 0">[예식장 이름] [홀명]</h3>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="grid two">
+          <a class="btn brand" id="btnAddCal" href="#">캘린더에 저장</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://maps.google.com/?q=%EC%98%88%EC%8B%9D%EC%9E%A5">지도 열기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 오시는 길 (지도 임베드) -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">Directions</p>
+        <iframe class="map" loading="lazy" allowfullscreen
+          src="https://www.google.com/maps?q=Seoul&output=embed"></iframe>
+        <p class="note">대중교통/주차 안내 등을 여기에 적어 주세요.</p>
+      </div>
+    </section>
+
+    <!-- 갤러리 -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">Gallery</p>
+        <div class="gallery">
+          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="사진 1">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop" alt="사진 2">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop" alt="사진 3">
+        </div>
+      </div>
+    </section>
+
+    <!-- 계좌 안내 (선택) -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">Account Info (선택)</p>
+        <ul class="list">
+          <li class="kv"><span>신랑측</span><strong>OO은행 123-456-789012 (홍길동)</strong></li>
+          <li class="kv"><span>신부측</span><strong>OO은행 987-654-321098 (김민지)</strong></li>
+        </ul>
+        <p class="note">계좌 표기는 취향에 따라 숨기거나, 버튼 클릭 시 나타나도록 변경할 수 있습니다.</p>
+      </div>
+    </section>
+
+    <!-- RSVP (외부 폼 연동) -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">RSVP</p>
+        <p class="muted">아래 버튼을 눌러 참석 여부를 알려주세요.</p>
+        <div class="grid two">
+          <!-- Google Forms, Typeform, Formspree 등 링크로 연결 -->
+          <a class="btn brand" target="_blank" rel="noopener" href="https://forms.gle/">RSVP 작성하기</a>
+          <a class="btn" href="#rsvp-inline">간단 메모 남기기</a>
+        </div>
+        <div style="height:12px"></div>
+        <!-- 인라인 간단 메모 (Formspree 데모) -->
+        <form id="rsvp-inline" action="https://formspree.io/f/your-id" method="POST" class="grid">
+          <div class="field">
+            <label>이름</label>
+            <input type="text" name="name" required>
+          </div>
+          <div class="field">
+            <label>메시지</label>
+            <textarea name="message" rows="3" placeholder="축하 메시지를 남겨 주세요"></textarea>
+          </div>
+          <button class="btn brand" type="submit">메모 보내기</button>
+          <p class="note">※ 위 폼은 데모입니다. 본인 Formspree/백엔드 엔드포인트로 교체하세요.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- 연락처 -->
+    <section class="section">
+      <div class="card">
+        <p class="eyebrow">Contact</p>
+        <div class="grid two">
+          <a class="pill" href="tel:010-0000-0000">신랑측 연락하기</a>
+          <a class="pill" href="tel:010-0000-0001">신부측 연락하기</a>
+        </div>
+        <div class="grid two" style="margin-top:8px">
+          <a class="pill" href="sms:01000000000">문자 보내기</a>
+          <a class="pill" href="mailto:you@example.com">이메일 보내기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 고정 공유 바 -->
+    <div class="sticky-share">
+      <div class="bar">
+        <button class="btn" id="btnCopy">링크 복사</button>
+        <a class="btn" id="btnKakao" href="#">카카오로 공유</a>
+        <a class="btn brand" href="#top">맨 위로</a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div>감사합니다. 안전하게 오세요 🙏</div>
+      <div class="disclaimer">이미지/문구/색상은 자유롭게 변경하세요. 호스팅은 GitHub Pages/Netlify 등 무료로 가능합니다.</div>
+    </footer>
+  </div>
+
+  <!-- (선택) Kakao SDK: 실제 사용 시 본인 앱 키로 교체 필요 -->
+  <!-- 확실하지 않음: 카카오 공유는 앱 키/도메인 등록이 필요하며, 배포 환경에 따라 설정이 달라질 수 있습니다. 공식 문서 확인 후 적용하세요. -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-O8i0fJ4m0bI3b5ZlHqg8h2hR7xY2M9m9o7d9fXvK2kZq2q+3zDkz2k1wQKq2i2cR" crossorigin="anonymous"></script>
+  <script>
+    // ===== 유틸: 현재 페이지 링크 복사 =====
+    document.getElementById('btnCopy').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(location.href);
+        alert('링크를 복사했습니다.');
+      }catch(e){ alert('복사에 실패했습니다. URL을 길게 눌러 복사해 주세요.'); }
+    });
+
+    // ===== 캘린더(ICS) 생성 =====
+    document.getElementById('btnAddCal').addEventListener('click', () => {
+      // 예시 데이터 — 실제 일시/장소로 교체
+      const title = '[이름A & 이름B] 결혼식';
+      // YYYY,MM-1,DD,HH,mm  — 월은 0부터 시작하므로 주의
+      const start = new Date(2025, 11, 20, 13, 30); // 2025-12-20 13:30
+      const end   = new Date(2025, 11, 20, 15, 30);
+      const loc   = '[예식장 이름] [홀명]';
+      const desc  = '함께해 주셔서 감사합니다';
+
+      function toICSDate(d){
+        const pad = n => String(n).padStart(2,'0');
+        const y=d.getFullYear();
+        const m=pad(d.getMonth()+1); // ICS는 1~12
+        const day=pad(d.getDate());
+        const hh=pad(d.getHours());
+        const mm=pad(d.getMinutes());
+        return `${y}${m}${day}T${hh}${mm}00`;
+      }
+
+      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Mobile Invitation//KO\nBEGIN:VEVENT\nUID:${Date.now()}@inv\nDTSTAMP:${toICSDate(new Date())}\nDTSTART:${toICSDate(start)}\nDTEND:${toICSDate(end)}\nSUMMARY:${title}\nLOCATION:${loc}\nDESCRIPTION:${desc}\nEND:VEVENT\nEND:VCALENDAR`;
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'wedding-invite.ics'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // ===== Kakao 공유 (앱 키 필요) =====
+    try{
+      // Kakao.init('여기에_본인_JavaScript_키'); // 실제 키로 변경
+      document.getElementById('btnKakao').addEventListener('click', (e) => {
+        e.preventDefault();
+        if(!(window.Kakao && Kakao.isInitialized && Kakao.isInitialized())){
+          alert('카카오 공유가 설정되지 않았습니다. (앱 키/도메인 등록 필요)');
+          return;
+        }
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: '[이름A & 이름B] 결혼식에 초대합니다',
+            description: '[YYYY.MM.DD (요일) HH:MM] | [예식장 이름/홀명]',
+            imageUrl: document.querySelector('meta[property="og:image"]').content,
+            link: { mobileWebUrl: location.href, webUrl: location.href }
+          },
+          buttons: [
+            { title: '모바일 청첩장 열기', link: { mobileWebUrl: location.href, webUrl: location.href } }
+          ]
+        });
+      });
+    }catch(err){ /* 카카오 SDK 미초기화 시 무시 */ }
+  </script>
+</body>
+</html>
