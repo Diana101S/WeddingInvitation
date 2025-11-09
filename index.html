@@ -4,11 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wedding of Daniel & Diana</title>
-  <!-- Open Graph / KakaoTalk 미리보기 -->
-  <meta property="og:title" content="[이름A & 이름B] 결혼식에 초대합니다" />
-  <meta property="og:description" content="[YYYY.MM.DD (요일) HH:MM] | [예식장 이름/홀명]" />
+
+  <!-- OG (메신저 미리보기) — 절대 URL 권장 -->
+  <meta property="og:title" content="Wedding of Daniel & Diana" />
+  <meta property="og:description" content="2026.06.06 | [예식장/홀명]" />
+  <!-- 예: https://Diana101S.github.io/WeddingInvitation/assets/cover.jpg?v=1 -->
   <meta property="og:image" content="공개링크_청첩장메인사진.png" />
-  <meta property="og:url" content="https://drive.google.com/file/d/19xKtU9cdvId2OS4oZUQkT1hQGDwqgCiI/view?usp=drive_link" />
+  <meta property="og:url" content="https://Diana101S.github.io/WeddingInvitation/" />
   <meta property="og:type" content="website" />
 
   <meta name="format-detection" content="telephone=no" />
@@ -23,9 +25,16 @@
     img{max-width:100%;display:block}
     a{color:inherit}
     .wrap{max-width:720px;margin:0 auto}
+
+    /* ▼ 히어로: '안잘림' 설정 */
     .hero{position:relative}
-    .hero img{width:100%;height:58vh;object-fit:cover}
-    .badge{position:absolute;inset:auto 16px 16px auto;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
+    .hero img{
+      width:100%;
+      height:auto;              /* 핵심: 고정 높이 제거 */
+      /* object-fit:contain; */ /* 필요 시 여백 생겨도 전체 보이게 하고 싶으면 주석 해제 */
+    }
+
+    .badge{position:absolute;right:16px;bottom:16px;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
     .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
     .section{padding:28px 16px}
     .title{font-weight:700;font-size:22px;margin:0 0 12px}
@@ -55,8 +64,9 @@
   <div class="wrap">
     <!-- HERO -->
     <header class="hero">
-      <img src="공개링크_청첩장메인사진.png" alt="커버 이미지" />
-      <div class="badge">[06.06,2026] [HH:MM] • [예식장]</div>
+      <!-- 파일명/경로를 네 파일로 교체하세요 (대소문자 정확히) -->
+      <img src="공개링크_청첩장메인사진.png?v=2" alt="커버 이미지" />
+      <div class="badge">2026.06.06 • [예식장]</div>
     </header>
 
     <!-- 인사말 / 커플 소개 -->
@@ -75,7 +85,7 @@
         <div class="grid two">
           <div>
             <div class="muted">일시</div>
-            <h3 style="margin:6px 0 0">YYYY.MM.DD (요일) • HH:MM</h3>
+            <h3 style="margin:6px 0 0">2026.06.06 (토) • HH:MM</h3>
           </div>
           <div>
             <div class="muted">장소</div>
@@ -90,7 +100,7 @@
       </div>
     </section>
 
-    <!-- 오시는 길 (지도 임베드) -->
+    <!-- 오시는 길 -->
     <section class="section">
       <div class="card">
         <p class="eyebrow">Directions</p>
@@ -124,44 +134,14 @@
       </div>
     </section>
 
-    <!-- RSVP (외부 폼 연동) -->
+    <!-- RSVP (외부 폼) -->
     <section class="section">
       <div class="card">
         <p class="eyebrow">RSVP</p>
         <p class="muted">아래 버튼을 눌러 참석 여부를 알려주세요.</p>
         <div class="grid two">
-          <!-- Google Forms, Typeform, Formspree 등 링크로 연결 -->
           <a class="btn brand" target="_blank" rel="noopener" href="https://forms.gle/">RSVP 작성하기</a>
-          <a class="btn" href="#rsvp-inline">간단 메모 남기기</a>
-        </div>
-        <div style="height:12px"></div>
-        <!-- 인라인 간단 메모 (Formspree 데모) -->
-        <form id="rsvp-inline" action="https://formspree.io/f/your-id" method="POST" class="grid">
-          <div class="field">
-            <label>이름</label>
-            <input type="text" name="name" required>
-          </div>
-          <div class="field">
-            <label>메시지</label>
-            <textarea name="message" rows="3" placeholder="축하 메시지를 남겨 주세요"></textarea>
-          </div>
-          <button class="btn brand" type="submit">메모 보내기</button>
-          <p class="note">※ 위 폼은 데모입니다. 본인 Formspree/백엔드 엔드포인트로 교체하세요.</p>
-        </form>
-      </div>
-    </section>
-
-    <!-- 연락처 -->
-    <section class="section">
-      <div class="card">
-        <p class="eyebrow">Contact</p>
-        <div class="grid two">
-          <a class="pill" href="tel:010-0000-0000">신랑측 연락하기</a>
-          <a class="pill" href="tel:010-0000-0001">신부측 연락하기</a>
-        </div>
-        <div class="grid two" style="margin-top:8px">
-          <a class="pill" href="sms:01000000000">문자 보내기</a>
-          <a class="pill" href="mailto:you@example.com">이메일 보내기</a>
+          <a class="btn" href="#top">맨 위로</a>
         </div>
       </div>
     </section>
@@ -170,7 +150,6 @@
     <div class="sticky-share">
       <div class="bar">
         <button class="btn" id="btnCopy">링크 복사</button>
-        <a class="btn" id="btnKakao" href="#">카카오로 공유</a>
         <a class="btn brand" href="#top">맨 위로</a>
       </div>
     </div>
@@ -181,69 +160,36 @@
     </footer>
   </div>
 
-  <!-- (선택) Kakao SDK: 실제 사용 시 본인 앱 키로 교체 필요 -->
-  <!-- 확실하지 않음: 카카오 공유는 앱 키/도메인 등록이 필요하며, 배포 환경에 따라 설정이 달라질 수 있습니다. 공식 문서 확인 후 적용하세요. -->
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-O8i0fJ4m0bI3b5ZlHqg8h2hR7xY2M9m9o7d9fXvK2kZq2q+3zDkz2k1wQKq2i2cR" crossorigin="anonymous"></script>
   <script>
-    // ===== 유틸: 현재 페이지 링크 복사 =====
+    // 링크 복사
     document.getElementById('btnCopy').addEventListener('click', async () => {
-      try{
-        await navigator.clipboard.writeText(location.href);
-        alert('링크를 복사했습니다.');
-      }catch(e){ alert('복사에 실패했습니다. URL을 길게 눌러 복사해 주세요.'); }
+      try { await navigator.clipboard.writeText(location.href); alert('링크 복사 완료'); }
+      catch { alert('복사 실패. 주소를 길게 눌러 복사해 주세요.'); }
     });
 
-    // ===== 캘린더(ICS) 생성 =====
-    document.getElementById('btnAddCal').addEventListener('click', () => {
-      // 예시 데이터 — 실제 일시/장소로 교체
-      const title = '[이름A & 이름B] 결혼식';
-      // YYYY,MM-1,DD,HH,mm  — 월은 0부터 시작하므로 주의
-      const start = new Date(2025, 11, 20, 13, 30); // 2025-12-20 13:30
-      const end   = new Date(2025, 11, 20, 15, 30);
-      const loc   = '[예식장 이름] [홀명]';
-      const desc  = '함께해 주셔서 감사합니다';
-
-      function toICSDate(d){
-        const pad = n => String(n).padStart(2,'0');
-        const y=d.getFullYear();
-        const m=pad(d.getMonth()+1); // ICS는 1~12
-        const day=pad(d.getDate());
-        const hh=pad(d.getHours());
-        const mm=pad(d.getMinutes());
-        return `${y}${m}${day}T${hh}${mm}00`;
-      }
-
-      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Mobile Invitation//KO\nBEGIN:VEVENT\nUID:${Date.now()}@inv\nDTSTAMP:${toICSDate(new Date())}\nDTSTART:${toICSDate(start)}\nDTEND:${toICSDate(end)}\nSUMMARY:${title}\nLOCATION:${loc}\nDESCRIPTION:${desc}\nEND:VEVENT\nEND:VCALENDAR`;
-      const blob = new Blob([ics], {type:'text/calendar'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'wedding-invite.ics'; a.click();
-      URL.revokeObjectURL(url);
+    // 캘린더(ICS)
+    document.getElementById('btnAddCal')?.addEventListener('click', () => {
+      const title='Wedding of Daniel & Diana';
+      const start=new Date(2026,5,6,13,30); // 2026-06-06 13:30
+      const end=new Date(2026,5,6,15,30);
+      const loc='[예식장/홀명]';
+      const pad=n=>String(n).padStart(2,'0');
+      const toICS=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+      const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Mobile Invitation//KO
+BEGIN:VEVENT
+UID:${Date.now()}@inv
+DTSTAMP:${toICS(new Date())}
+DTSTART:${toICS(start)}
+DTEND:${toICS(end)}
+SUMMARY:${title}
+LOCATION:${loc}
+END:VEVENT
+END:VCALENDAR`;
+      const blob=new Blob([ics],{type:'text/calendar'}); const url=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
     });
-
-    // ===== Kakao 공유 (앱 키 필요) =====
-    try{
-      // Kakao.init('여기에_본인_JavaScript_키'); // 실제 키로 변경
-      document.getElementById('btnKakao').addEventListener('click', (e) => {
-        e.preventDefault();
-        if(!(window.Kakao && Kakao.isInitialized && Kakao.isInitialized())){
-          alert('카카오 공유가 설정되지 않았습니다. (앱 키/도메인 등록 필요)');
-          return;
-        }
-        Kakao.Share.sendDefault({
-          objectType: 'feed',
-          content: {
-            title: '[이름A & 이름B] 결혼식에 초대합니다',
-            description: '[YYYY.MM.DD (요일) HH:MM] | [예식장 이름/홀명]',
-            imageUrl: document.querySelector('meta[property="og:image"]').content,
-            link: { mobileWebUrl: location.href, webUrl: location.href }
-          },
-          buttons: [
-            { title: '모바일 청첩장 열기', link: { mobileWebUrl: location.href, webUrl: location.href } }
-          ]
-        });
-      });
-    }catch(err){ /* 카카오 SDK 미초기화 시 무시 */ }
   </script>
 </body>
 </html>
