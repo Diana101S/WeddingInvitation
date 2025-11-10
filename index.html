@@ -51,9 +51,9 @@
     .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
     .gallery img{
       width:100%;
-      aspect-ratio:1/1;     /* 정사각형 비율 */
-      object-fit:cover;     /* 중앙 기준으로 꽉 채우기 */
-      border-radius:8px;    /* 선택: 살짝 곡선 */
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:8px;
     }
 
     .list{margin:12px 0 0;padding:0;list-style:none}
@@ -228,6 +228,21 @@ END:VCALENDAR`;
       const blob=new Blob([ics],{type:'text/calendar'}); const url=URL.createObjectURL(blob);
       const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
     });
+  </script>
+
+  <!-- ✅ Supabase 클라이언트(테스트용) -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    // 여기에 실제 값 넣기 전까지는 임시로 xxx로 둡니다.
+    const SUPABASE_URL = "https://xxx.supabase.co";
+    const SUPABASE_ANON_KEY = "xxx";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 선택: 동작 확인용 - rsvps 1건 조회
+    const { data, error } = await supabase.from("rsvps").select("*").limit(1);
+    console.log("rsvps sample:", { data, error });
   </script>
 </body>
 </html>
