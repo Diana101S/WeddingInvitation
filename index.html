@@ -1,214 +1,153 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wedding of Daniel & Diana</title>
+  <title>RSVP — Daniel & Diana</title>
 
-  <!-- OG -->
-  <meta property="og:title" content="Wedding of Daniel & Diana" />
-  <meta property="og:description" content="2026.06.06 | [예식장/홀명]" />
-  <meta property="og:image" content="공개링크_청첩장메인사진.png" />
-  <meta property="og:url" content="https://Diana101S.github.io/WeddingInvitation/" />
-  <meta property="og:type" content="website" />
-  <meta name="format-detection" content="telephone=no" />
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#FFFFFF;
-      --ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
-      --muted:#6B7280;--accent:#E9C89B;--rule:#E6D7BD;--gold:#B9A06B;
-    }
+    :root{ --bg:#FFFFFF; --ink:#0f172a; --line:#e7e7e7; --brand:#86AEDB; }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-      font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
-    img{max-width:100%;display:block}
-    a{color:inherit}
-    .wrap{max-width:720px;margin:0 auto}
-
-    /* HERO */
-    .hero{position:relative}
-    .hero img{width:100%;height:auto}
-    .badge{position:absolute;right:16px;bottom:16px;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
-
-    /* Layout */
-    .section{padding:28px 16px}
-
-    /* Flat style */
-    .card{background:transparent;border:none;padding:0}
-    .grid{display:grid;gap:12px}
-    .grid.two{grid-template-columns:1fr 1fr}
-    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;text-decoration:none}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:720px;margin:0 auto;padding:24px 16px}
+    .title{font-weight:700;font-size:22px;margin:4px 0 16px}
+    .eyebrow{font-size:12px;color:#64748b;letter-spacing:.08em;text-transform:uppercase;margin:0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
-    .muted{color:var(--sub)}
-    .map{border:0;width:100%;height:280px;border-radius:12px}
-
-    /* 갤러리: 정사각형 크롭 */
-    .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
-    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
-
-    .list{margin:12px 0 0;padding:0;list-style:none}
-    .list li{padding:10px 0;border-top:none;display:flex;justify-content:space-between;gap:12px}
-    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
-    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
-    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
-    .sticky-share .bar{max-width:720px;margin:0 auto;display:flex;gap:8px;padding:10px 12px}
-
-    /* English invite block */
-    .eng-invite{padding:20px 0}
-    .eng-invite .inv-label{
-      font-family:"Playfair Display", serif;color:var(--gold);letter-spacing:.28em;
-      text-transform:uppercase;font-weight:700;text-align:center;font-size:clamp(13px,2vw,16px);margin:0 0 18px;
-    }
-    .eng-invite .headline{
-      font-family:"Playfair Display", serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--muted);font-size:clamp(14px,2.3vw,18px);margin:0 0 24px;text-align:center
-    }
-    .eng-invite .line-1{
-      font-family:"Playfair Display", serif;font-weight:700;font-size:clamp(18px,3.8vw,32px);
-      letter-spacing:.12em;line-height:1.5;margin:0 0 18px;text-align:center;color:var(--ink)
-    }
-    .eng-invite .line-2{
-      font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size:clamp(16px,2.6vw,19px);line-height:1.9;letter-spacing:.02em;margin:0;text-align:center;color:var(--ink)
-    }
-    .orn{position:relative;height:28px;margin:0 auto 28px;width:min(360px,70%);opacity:.95}
-    .orn::before,.orn::after{content:"";position:absolute;top:50%;height:1px;width:40%;background:linear-gradient(90deg,transparent,var(--rule));transform:translateY(-50%)}
-    .orn::before{left:0}
-    .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
-    .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
+    .form{display:grid;gap:12px;margin-top:12px}
+    .field{display:grid;gap:6px}
+    .field label{font-size:14px;color:#475569}
+    .field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:16px}
+    .choices{display:flex;gap:16px;flex-wrap:wrap}
+    .msg{margin-top:10px;font-size:14px}
+    .msg.ok{color:#047857}.msg.err{color:#b91c1c}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- HERO -->
-    <header class="hero">
-      <img src="공개링크_청첩장메인사진.png?v=2" alt="커버 이미지" />
-      <div class="badge">2026.06.06 • [예식장]</div>
-    </header>
-
-    <!-- English invite -->
-    <section class="section">
-      <div class="eng-invite" aria-label="English invitation">
-        <p class="inv-label">INVITATION</p>
-        <div class="orn" aria-hidden="true"><span class="dot"></span></div>
-        <p class="headline">You’re invited to celebrate with us.</p>
-        <h2 class="line-1">Years of love brought us here.</h2>
-        <p class="line-2">Today, we’re celebrating in <strong>Busan, South Korea</strong> on <strong>June 6, 2026</strong>.</p>
-        <div class="orn" style="margin:28px auto 0" aria-hidden="true"><span class="dot"></span></div>
+    <div class="topbar">
+      <div>
+        <p class="eyebrow">RSVP</p>
+        <h1 class="title">Daniel & Diana — RSVP</h1>
       </div>
-    </section>
-
-    <!-- When & Where -->
-    <section class="section">
-      <div class="card">
-        <p class="muted" style="margin:0 0 6px">When &amp; Where</p>
-        <div class="grid two">
-          <div>
-            <div class="muted">일시</div>
-            <h3 style="margin:6px 0 0">2026.06.06 (토) • HH:MM</h3>
-          </div>
-          <div>
-            <div class="muted">장소</div>
-            <h3 style="margin:6px 0 0">[예식장 이름] [홀명]</h3>
-          </div>
-        </div>
-        <div style="height:12px"></div>
-        <div class="grid two">
-          <a class="btn brand" id="btnAddCal" href="#">캘린더에 저장</a>
-          <a class="btn" target="_blank" rel="noopener" href="https://maps.google.com/?q=%EC%98%88%EC%8B%9D%EC%9E%A5">지도 열기</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Directions -->
-    <section class="section">
-      <div class="card">
-        <p class="muted" style="margin:0 0 6px">Directions</p>
-        <iframe class="map" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Seoul&output=embed"></iframe>
-        <p class="muted" style="margin-top:8px">대중교통/주차 안내 등을 여기에 적어 주세요.</p>
-      </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="section">
-      <div class="card">
-        <p class="muted" style="margin:0 0 6px">Gallery</p>
-        <div class="gallery">
-          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="사진 1">
-          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop" alt="사진 2">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop" alt="사진 3">
-        </div>
-      </div>
-    </section>
-
-    <!-- Account Info -->
-    <section class="section">
-      <div class="card">
-        <p class="muted" style="margin:0 0 6px">Account Info (선택)</p>
-        <ul class="list">
-          <li class="kv"><span>신랑측</span><strong>OO은행 123-456-789012 (홍길동)</strong></li>
-          <li class="kv"><span>신부측</span><strong>OO은행 987-654-321098 (김민지)</strong></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- RSVP CTA: 별도 페이지로 이동 -->
-    <section class="section" id="rsvp">
-      <div class="card rsvp-block" style="text-align:center">
-        <p class="rsvp-eyebrow">RSVP</p>
-        <p class="rsvp-copy">We’d be honored to celebrate with you. Please let us know if you’ll be able to attend.</p>
-        <a class="btn brand" href="rsvp.html">Open RSVP Form</a>
-      </div>
-    </section>
-
-    <!-- Sticky share -->
-    <div class="sticky-share">
-      <div class="bar">
-        <button class="btn" id="btnCopy">링크 복사</button>
-        <a class="btn brand" href="#top">맨 위로</a>
-      </div>
+      <!-- ✅ 상대경로로 변경 -->
+      <a class="btn" href="./index.html">← Back</a>
     </div>
 
-    <footer class="footer">
-      <div>감사합니다. 안전하게 오세요 🙏</div>
-      <div class="disclaimer">이미지/문구/색상은 자유롭게 변경하세요. 호스팅은 GitHub Pages/Netlify 등 무료로 가능합니다.</div>
-    </footer>
+    <p>We’d be honored to celebrate with you. Please let us know if you’ll be able to attend.</p>
+
+    <form id="rsvpForm" class="form" novalidate>
+      <div class="field">
+        <label for="name">Full name *</label>
+        <input id="name" name="name" type="text" required placeholder="Your name" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email (optional)</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="field">
+        <label>Will you attend? *</label>
+        <div class="choices">
+          <label><input type="radio" name="attending" value="yes" required /> Yes, I will attend</label>
+          <label><input type="radio" name="attending" value="no" /> No, I can’t attend</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="party_size">Total guests (including you)</label>
+        <select id="party_size" name="party_size">
+          <option value="1" selected>1 (Just me)</option>
+          <option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <small style="color:#64748b">If you can’t attend, select “No” above.</small>
+      </div>
+
+      <div class="field">
+        <label for="notes">Notes (dietary, seating, etc.)</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="Anything we should know?"></textarea>
+      </div>
+
+      <button id="submitBtn" class="btn brand" type="submit">Send RSVP</button>
+
+      <p id="ok" class="msg ok" hidden aria-live="polite">Thank you! Your RSVP has been recorded.</p>
+      <p id="err" class="msg err" hidden aria-live="polite">Sorry—something went wrong. Please try again.</p>
+    </form>
   </div>
 
-  <script>
-    // 링크 복사
-    document.getElementById('btnCopy').addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(location.href); alert('링크 복사 완료'); }
-      catch { alert('복사 실패. 주소를 길게 눌러 복사해 주세요.'); }
+  <!-- Supabase insert -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://xxx.supabase.co";   // ← 실제 URL로 교체
+    const SUPABASE_ANON_KEY = "xxx";                  // ← 실제 anon 키로 교체
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById("rsvpForm");
+    const btn  = document.getElementById("submitBtn");
+    const ok   = document.getElementById("ok");
+    const err  = document.getElementById("err");
+    const party = document.getElementById("party_size");
+    const radios = form.querySelectorAll('input[name="attending"]');
+
+    // 참석 선택에 따라 party_size 제어
+    radios.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const no = r.value==='no' && r.checked;
+        party.disabled = no;
+        if(no) party.value = "0";
+        if(!no && party.value==="0") party.value="1";
+      });
     });
 
-    // 캘린더(ICS)
-    document.getElementById('btnAddCal')?.addEventListener('click', () => {
-      const title='Wedding of Daniel & Diana';
-      const start=new Date(2026,5,6,13,30);
-      const end=new Date(2026,5,6,15,30);
-      const loc='[예식장/홀명]';
-      const pad=n=>String(n).padStart(2,'0');
-      const toICS=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-      const ics=`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Mobile Invitation//KO
-BEGIN:VEVENT
-UID:${Date.now()}@inv
-DTSTAMP:${toICS(new Date())}
-DTSTART:${toICS(start)}
-DTEND:${toICS(end)}
-SUMMARY:${title}
-LOCATION:${loc}
-END:VEVENT
-END:VCALENDAR`;
-      const blob=new Blob([ics],{type:'text/calendar'}); const url=URL.createObjectURL(blob);
-      const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      ok.hidden = true; err.hidden = true;
+
+      const f = new FormData(form);
+      const name = String(f.get("name")||"").trim();
+      const email = String(f.get("email")||"").trim();
+      const attendingVal = String(f.get("attending")||"");
+      const notes = String(f.get("notes")||"").trim();
+
+      if(!name || (attendingVal!=="yes" && attendingVal!=="no")){
+        err.textContent = "Please fill the required fields.";
+        err.hidden = false; return;
+      }
+
+      const attending = attendingVal==="yes";
+      let party_size = parseInt(String(f.get("party_size") || (attending?"1":"0")),10)||0;
+      if(!attending) party_size = 0;
+      if(attending && (party_size<1 || party_size>6)) party_size = 1;
+
+      btn.disabled = true; btn.textContent = "Sending…";
+
+      const { error } = await supabase.from("rsvps").insert({
+        name,
+        email: email || null,
+        attending,
+        party_size,
+        notes: notes || null
+      });
+
+      if(error){
+        console.error(error);
+        err.textContent = "Sorry—something went wrong. Please try again.";
+        err.hidden = false;
+      }else{
+        form.reset();
+        party.disabled = false; party.value = "1";
+        ok.hidden = false;
+      }
+      btn.disabled = false; btn.textContent = "Send RSVP";
     });
   </script>
 </body>
