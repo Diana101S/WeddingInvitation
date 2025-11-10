@@ -49,12 +49,7 @@
 
     /* 갤러리: 정사각형 크롭 */
     .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
-    .gallery img{
-      width:100%;
-      aspect-ratio:1/1;
-      object-fit:cover;
-      border-radius:8px;
-    }
+    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
 
     .list{margin:12px 0 0;padding:0;list-style:none}
     .list li{padding:10px 0;border-top:none;display:flex;justify-content:space-between;gap:12px}
@@ -86,27 +81,6 @@
     .orn::before{left:0}
     .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
     .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
-
-    /* RSVP block styles */
-    .rsvp-block{ text-align:center; }
-    .rsvp-eyebrow{
-      font-size:14px; color:#94a3b8; letter-spacing:.08em; text-transform:capitalize; margin:0 0 12px;
-    }
-    .rsvp-copy{ margin:0 0 16px; line-height:1.9; color:#0f172a; }
-    .btn.full{ width:100%; height:52px; font-weight:700; font-size:16px; border-radius:12px; }
-
-    /* RSVP form styles */
-    .rsvp-form{max-width:720px;margin:0 auto;display:grid;gap:12px}
-    .field{display:grid;gap:6px}
-    .field label{font-size:14px;color:#475569}
-    .field input,.field select,.field textarea{
-      width:100%;padding:12px;border:1px solid var(--line);
-      border-radius:10px;background:#fff;font-size:16px
-    }
-    .choices{display:flex;gap:16px;flex-wrap:wrap}
-    .rsvp-msg{margin-top:10px;font-size:14px}
-    .rsvp-msg.success{color:#047857}
-    .rsvp-msg.error{color:#b91c1c}
   </style>
 </head>
 <body>
@@ -155,8 +129,7 @@
     <section class="section">
       <div class="card">
         <p class="muted" style="margin:0 0 6px">Directions</p>
-        <iframe class="map" loading="lazy" allowfullscreen
-          src="https://www.google.com/maps?q=Seoul&output=embed"></iframe>
+        <iframe class="map" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Seoul&output=embed"></iframe>
         <p class="muted" style="margin-top:8px">대중교통/주차 안내 등을 여기에 적어 주세요.</p>
       </div>
     </section>
@@ -184,55 +157,12 @@
       </div>
     </section>
 
-    <!-- RSVP (Supabase direct) -->
+    <!-- RSVP CTA: 별도 페이지로 이동 -->
     <section class="section" id="rsvp">
-      <div class="card rsvp-block">
+      <div class="card rsvp-block" style="text-align:center">
         <p class="rsvp-eyebrow">RSVP</p>
-        <p class="rsvp-copy">
-          We’d be honored to celebrate with you.<br/>
-          Please let us know if you’ll be able to attend.
-        </p>
-
-        <form id="rsvpForm" class="rsvp-form" novalidate>
-          <div class="field">
-            <label for="name">Full name *</label>
-            <input id="name" name="name" type="text" required placeholder="Your name" />
-          </div>
-
-          <div class="field">
-            <label for="email">Email (optional)</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" />
-          </div>
-
-          <div class="field">
-            <label>Will you attend? *</label>
-            <div class="choices">
-              <label><input type="radio" name="attending" value="yes" required /> Yes, I will attend</label>
-              <label><input type="radio" name="attending" value="no" /> No, I can’t attend</label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="party_size">Total guests (including you)</label>
-            <select id="party_size" name="party_size">
-              <option value="1" selected>1 (Just me)</option>
-              <option value="2">2</option><option value="3">3</option>
-              <option value="4">4</option><option value="5">5</option>
-              <option value="6">6</option>
-            </select>
-            <small class="muted">If you can’t attend, select “No” above.</small>
-          </div>
-
-          <div class="field">
-            <label for="notes">Notes (dietary, seating, etc.)</label>
-            <textarea id="notes" name="notes" rows="3" placeholder="Anything we should know?"></textarea>
-          </div>
-
-          <button id="submitBtn" class="btn brand full" type="submit">Send RSVP</button>
-
-          <p id="rsvpSuccess" class="rsvp-msg success" hidden>Thank you! Your RSVP has been recorded.</p>
-          <p id="rsvpError" class="rsvp-msg error" hidden>Sorry—something went wrong. Please try again.</p>
-        </form>
+        <p class="rsvp-copy">We’d be honored to celebrate with you. Please let us know if you’ll be able to attend.</p>
+        <a class="btn brand" href="rsvp.html">Open RSVP Form</a>
       </div>
     </section>
 
@@ -281,85 +211,5 @@ END:VCALENDAR`;
       const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
     });
   </script>
-
-  <!-- Supabase로 RSVP 저장 -->
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-    // 실제 값으로 교체하면 즉시 동작
-    const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const form = document.getElementById("rsvpForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const msgOk = document.getElementById("rsvpSuccess");
-    const msgErr = document.getElementById("rsvpError");
-    const partySelect = document.getElementById("party_size");
-    const attendRadios = form?.querySelectorAll('input[name="attending"]');
-
-    // 참석 선택에 따라 party_size 자동 제어
-    attendRadios?.forEach(r => {
-      r.addEventListener('change', () => {
-        const isNo = r.value === 'no' && r.checked;
-        if (isNo) {
-          partySelect.value = "0";
-          partySelect.disabled = true;
-        } else if (r.value === 'yes' && r.checked) {
-          if (partySelect.value === "0") partySelect.value = "1";
-          partySelect.disabled = false;
-        }
-      });
-    });
-
-    form?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      msgOk.hidden = true; msgErr.hidden = true;
-
-      const f = new FormData(form);
-      const name = String(f.get("name") || "").trim();
-      const email = String(f.get("email") || "").trim();
-      const attendingVal = String(f.get("attending") || "");
-      const notes = String(f.get("notes") || "").trim();
-
-      if (!name || (attendingVal !== "yes" && attendingVal !== "no")) {
-        msgErr.textContent = "Please fill the required fields.";
-        msgErr.hidden = false;
-        return;
-      }
-
-      const attending = attendingVal === "yes";
-      let party_size = parseInt(String(f.get("party_size") || (attending ? "1" : "0")), 10) || 0;
-
-      // 강제 범위: 참석이면 1~6, 불참이면 0
-      if (!attending) party_size = 0;
-      if (attending && (party_size < 1 || party_size > 6)) party_size = 1;
-
-      submitBtn.disabled = true; submitBtn.textContent = "Sending…";
-
-      const { error } = await supabase.from("rsvps").insert({
-        name,
-        email: email || null,
-        attending,
-        party_size,
-        notes: notes || null
-      });
-
-      if (error) {
-        console.error(error);
-        msgErr.textContent = "Sorry—something went wrong. Please try again.";
-        msgErr.hidden = false;
-      } else {
-        form.reset();
-        partySelect.disabled = false;
-        partySelect.value = "1";
-        msgOk.hidden = false;
-      }
-
-      submitBtn.disabled = false; submitBtn.textContent = "Send RSVP";
-    });
-  </script>
 </body>
 </html>
-
