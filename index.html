@@ -22,13 +22,14 @@
       --bg:#FFFFFF;
       --ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
       --muted:#6B7280;--accent:#E9C89B;--rule:#E6D7BD;--gold:#B9A06B;
+      --maxw:720px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
       font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
     img{max-width:100%;display:block}
-    a{color:inherit}
-    .wrap{max-width:720px;margin:0 auto}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--maxw);margin:0 auto}
 
     /* HERO */
     .hero{position:relative}
@@ -38,25 +39,14 @@
     /* Layout */
     .section{padding:28px 16px}
 
-    /* Flat style */
+    /* Flat */
     .card{background:transparent;border:none;padding:0}
     .grid{display:grid;gap:12px}
     .grid.two{grid-template-columns:1fr 1fr}
-    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;text-decoration:none}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
     .muted{color:var(--sub)}
     .map{border:0;width:100%;height:280px;border-radius:12px}
-
-    /* 갤러리: 정사각형 크롭 */
-    .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
-    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
-
-    .list{margin:12px 0 0;padding:0;list-style:none}
-    .list li{padding:10px 0;border-top:none;display:flex;justify-content:space-between;gap:12px}
-    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
-    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
-    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
-    .sticky-share .bar{max-width:720px;margin:0 auto;display:flex;gap:8px;padding:10px 12px}
 
     /* English invite block */
     .eng-invite{padding:20px 0}
@@ -81,6 +71,44 @@
     .orn::before{left:0}
     .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
     .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
+
+    /* Calendar section */
+    .calendar{display:grid;place-items:center;gap:14px}
+    .calendar .cap{font-size:14px;color:#64748b}
+    .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
+
+    /* 갤러리: 정사각형 */
+    .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+    .gallery img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:8px;
+    }
+
+    /* Guest Book styles */
+    .gbook { padding: 28px 16px; }
+    .gbook .gb-title{
+      font-family:"Playfair Display", serif;
+      color:#B9A06B; letter-spacing:.28em; text-transform:uppercase;
+      font-weight:700; text-align:center;
+      font-size:clamp(13px,2vw,16px); margin:0 0 18px;
+    }
+    .gbook .form{display:grid;gap:12px;max-width:var(--maxw);margin:0 auto;}
+    .gbook .field{display:grid;gap:6px}
+    .gbook input,.gbook textarea{
+      width:100%;padding:12px;border:1px solid var(--line);
+      border-radius:10px;background:#fff;font-size:16px
+    }
+    .gbook .btn.full{width:100%;height:52px;font-weight:700;font-size:16px;border-radius:12px}
+    .gbook .msg{margin-top:10px;font-size:14px}
+    .gbook .msg.ok{color:#047857}
+    .gbook .msg.err{color:#b91c1c}
+
+    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
+    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
+    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
+    .sticky-share .bar{max-width:var(--maxw);margin:0 auto;display:flex;gap:8px;padding:10px 12px}
   </style>
 </head>
 <body>
@@ -100,6 +128,15 @@
         <h2 class="line-1">Years of love brought us here.</h2>
         <p class="line-2">Today, we’re celebrating in <strong>Busan, South Korea</strong> on <strong>June 6, 2026</strong>.</p>
         <div class="orn" style="margin:28px auto 0" aria-hidden="true"><span class="dot"></span></div>
+      </div>
+    </section>
+
+    <!-- Calendar (이미지 사용: 파일명 교체) -->
+    <section class="section">
+      <div class="calendar">
+        <!-- 캘린더 이미지 파일명을 실제 파일로 바꿔주세요 -->
+        <img src="calendar.png" alt="June 2026 calendar with heart on 6th" />
+        <div class="cap">Save the Date — 2026.06.06</div>
       </div>
     </section>
 
@@ -147,25 +184,47 @@
       </div>
     </section>
 
-    <!-- Account Info -->
+    <!-- Account Info (선택) -->
     <section class="section">
       <div class="card">
         <p class="muted" style="margin:0 0 6px">Account Info (선택)</p>
-        <ul class="list">
-          <li class="kv"><span>신랑측</span><strong>OO은행 123-456-789012 (홍길동)</strong></li>
-          <li class="kv"><span>신부측</span><strong>OO은행 987-654-321098 (김민지)</strong></li>
+        <ul class="list" style="list-style:none;padding:0;margin:12px 0 0">
+          <li class="kv" style="display:flex;justify-content:space-between;gap:12px;padding:8px 0">
+            <span>신랑측</span><strong>OO은행 123-456-789012 (홍길동)</strong>
+          </li>
+          <li class="kv" style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px dashed var(--line)">
+            <span>신부측</span><strong>OO은행 987-654-321098 (김민지)</strong>
+          </li>
         </ul>
       </div>
     </section>
 
-    <!-- RSVP CTA: 별도 페이지로 이동 -->
-    <section class="section" id="rsvp">
-      <div class="card rsvp-block" style="text-align:center">
-        <p class="rsvp-eyebrow">RSVP</p>
-        <p class="rsvp-copy">
-          We’d be honored to celebrate with you. Please let us know if you’ll be able to attend.
-        </p>
-        <!-- ✅ 여기만 rsvp.html로 이동 -->
+    <!-- Guest Book -->
+    <section class="section gbook" id="guestbook">
+      <p class="gb-title">GUEST BOOK</p>
+
+      <form id="gbForm" class="form" novalidate>
+        <div class="field">
+          <input type="text" id="gb_name" name="name" placeholder="이름" required />
+        </div>
+        <div class="field">
+          <input type="password" id="gb_pin" name="pin" inputmode="numeric" minlength="4" maxlength="6"
+                 placeholder="비밀번호 (4~6자리)" required />
+        </div>
+        <div class="field">
+          <textarea id="gb_message" name="message" rows="3" placeholder="축하메시지" required></textarea>
+        </div>
+
+        <button id="gbSubmit" class="btn brand" type="submit">축하메시지 남기기</button>
+
+        <p id="gbOk"  class="msg ok"  hidden>감사합니다! 메시지가 전달되었습니다.</p>
+        <p id="gbErr" class="msg err" hidden>오류가 발생했습니다. 다시 시도해 주세요.</p>
+      </form>
+    </section>
+
+    <!-- RSVP 버튼 (별도 페이지로 이동) -->
+    <section class="section" id="rsvp-cta">
+      <div class="card" style="text-align:center">
         <a class="btn brand" href="./rsvp.html">Open RSVP Form</a>
       </div>
     </section>
@@ -213,6 +272,70 @@ END:VEVENT
 END:VCALENDAR`;
       const blob=new Blob([ics],{type:'text/calendar'}); const url=URL.createObjectURL(blob);
       const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
+    });
+  </script>
+
+  <!-- Supabase Guest Book 저장 -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    // 실제 프로젝트 값으로 교체
+    const SUPABASE_URL = "https://xxx.supabase.co";
+    const SUPABASE_ANON_KEY = "xxx";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // SHA-256 해시
+    async function sha256(str){
+      const data = new TextEncoder().encode(str);
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+
+    const form = document.getElementById('gbForm');
+    const btn  = document.getElementById('gbSubmit');
+    const ok   = document.getElementById('gbOk');
+    const err  = document.getElementById('gbErr');
+
+    form?.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      ok.hidden = true; err.hidden = true;
+
+      const name = document.getElementById('gb_name').value.trim();
+      const pin  = document.getElementById('gb_pin').value.trim();
+      const msg  = document.getElementById('gb_message').value.trim();
+
+      if(!name || !pin || !msg){
+        err.textContent = "모든 항목을 입력해 주세요.";
+        err.hidden = false; return;
+      }
+      if(pin.length < 4 || pin.length > 6){
+        err.textContent = "비밀번호는 4~6자리로 입력해 주세요.";
+        err.hidden = false; return;
+      }
+
+      btn.disabled = true; btn.textContent = "전송 중…";
+
+      try{
+        const pin_hash = await sha256(pin);
+        const { error } = await supabase.from('guestbook').insert({
+          name, message: msg, pin_hash
+        });
+
+        if(error){
+          console.error(error);
+          err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
+          err.hidden = false;
+        }else{
+          form.reset();
+          ok.hidden = false;
+        }
+      }catch(e2){
+        console.error(e2);
+        err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
+        err.hidden = false;
+      }finally{
+        btn.disabled = false; btn.textContent = "축하메시지 남기기";
+      }
     });
   </script>
 </body>
