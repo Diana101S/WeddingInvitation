@@ -11,7 +11,6 @@
   <meta property="og:image" content="공개링크_청첩장메인사진.png" />
   <meta property="og:url" content="https://Diana101S.github.io/WeddingInvitation/" />
   <meta property="og:type" content="website" />
-
   <meta name="format-detection" content="telephone=no" />
 
   <!-- Fonts -->
@@ -20,9 +19,10 @@
 
   <style>
     :root{
-      --bg:#fffdfa;--ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
-      /* for English ornament block */
-      --paper:#ffffff;--muted:#6B7280;--accent:#E9C89B;--rule:#E6D7BD;
+      --bg:#FFFFFF;                 /* 전체 배경 */
+      --ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
+      --muted:#6B7280;--accent:#E9C89B;--rule:#E6D7BD;
+      --gold:#B9A06B;              /* INVITATION 금빛 톤 */
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
@@ -31,33 +31,42 @@
     a{color:inherit}
     .wrap{max-width:720px;margin:0 auto}
 
-    /* ▼ 히어로: '안잘림' 설정 */
+    /* HERO */
     .hero{position:relative}
     .hero img{width:100%;height:auto}
     .badge{position:absolute;right:16px;bottom:16px;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
 
-    .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+    /* 공통 레이아웃 */
     .section{padding:28px 16px}
-    .title{font-weight:700;font-size:22px;margin:0 0 12px}
-    .eyebrow{font-size:12px;color:#64748b;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
-    .muted{color:var(--sub)}
+
+    /* 플랫 스타일 (모든 카드 모양 제거) */
+    .card{background:transparent;border:none;padding:0}
     .grid{display:grid;gap:12px}
     .grid.two{grid-template-columns:1fr 1fr}
     .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;text-decoration:none}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
-    .list{margin:12px 0 0;padding:0;list-style:none}
-    .list li{padding:10px 0;border-top:1px dashed var(--line);display:flex;justify-content:space-between;gap:12px}
-    .kv{display:flex;justify-content:space-between;gap:12px}
-    .kv strong{font-weight:600}
-    .note{font-size:14px;color:#475569}
+    .muted{color:var(--sub)}
+    .map{border:0;width:100%;height:280px;border-radius:12px}
     .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+    .list{margin:12px 0 0;padding:0;list-style:none}
+    .list li{padding:10px 0;border-top:none;display:flex;justify-content:space-between;gap:12px}
     .footer{padding:40px 16px 80px;color:#475569;text-align:center}
     .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
     .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
     .sticky-share .bar{max-width:720px;margin:0 auto;display:flex;gap:8px;padding:10px 12px}
-    .map{border:0;width:100%;height:280px;border-radius:12px}
 
-    /* ===== 영어 인사 블록(오너먼트 스타일) ===== */
+    /* ===== 영어 인사 블록(오너먼트) ===== */
+    .eng-invite{padding:20px 0}
+    .eng-invite .inv-label{
+      font-family:"Playfair Display", serif;
+      color:var(--gold);
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      font-weight:700;
+      text-align:center;
+      font-size:clamp(13px,2vw,16px);
+      margin:0 0 18px;
+    }
     .eng-invite .headline{
       font-family:"Playfair Display", serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
       color:var(--muted);font-size:clamp(14px,2.3vw,18px);margin:0 0 24px;text-align:center
@@ -75,6 +84,24 @@
     .orn::before{left:0}
     .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
     .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
+
+    /* ===== RSVP block styles (영문, 스크린샷 스타일) ===== */
+    .rsvp-block{ text-align:center; }
+    .rsvp-eyebrow{
+      font-size:14px; color:#94a3b8;
+      letter-spacing:.08em; text-transform:capitalize;
+      margin:0 0 12px;
+    }
+    .rsvp-copy{
+      margin:0 0 16px;
+      line-height:1.9;
+      color:#0f172a;
+    }
+    .btn.full{
+      width:100%; height:52px;
+      font-weight:700; font-size:16px;
+      border-radius:12px;
+    }
   </style>
 </head>
 <body>
@@ -85,9 +112,10 @@
       <div class="badge">2026.06.06 • [예식장]</div>
     </header>
 
-    <!-- ▼ 여기에 영어 인사 블록 삽입 -->
+    <!-- 영어 인사 블록 -->
     <section class="section">
-      <div class="card eng-invite" aria-label="English invitation">
+      <div class="eng-invite" aria-label="English invitation">
+        <p class="inv-label">INVITATION</p>
         <div class="orn" aria-hidden="true"><span class="dot"></span></div>
         <p class="headline">You’re invited to celebrate with us.</p>
         <h2 class="line-1">Years of love brought us here.</h2>
@@ -96,19 +124,10 @@
       </div>
     </section>
 
-    <!-- 인사말 / 커플 소개 -->
+    <!-- 일정/장소 -->
     <section class="section">
       <div class="card">
-        <p class="eyebrow">Invitation</p>
-        <h1 class="title">[이름A] & [이름B]의 결혼식에 초대합니다</h1>
-        <p class="muted">소중한 분들을 모시고 저희 두 사람의 새로운 시작을 함께 나누고자 합니다. 따뜻한 마음으로 축복해 주세요.</p>
-      </div>
-    </section>
-
-    <!-- 일정/장소 핵심 정보 -->
-    <section class="section">
-      <div class="card">
-        <p class="eyebrow">When & Where</p>
+        <p class="muted" style="margin:0 0 6px">When &amp; Where</p>
         <div class="grid two">
           <div>
             <div class="muted">일시</div>
@@ -130,17 +149,17 @@
     <!-- 오시는 길 -->
     <section class="section">
       <div class="card">
-        <p class="eyebrow">Directions</p>
+        <p class="muted" style="margin:0 0 6px">Directions</p>
         <iframe class="map" loading="lazy" allowfullscreen
           src="https://www.google.com/maps?q=Seoul&output=embed"></iframe>
-        <p class="note">대중교통/주차 안내 등을 여기에 적어 주세요.</p>
+        <p class="muted" style="margin-top:8px">대중교통/주차 안내 등을 여기에 적어 주세요.</p>
       </div>
     </section>
 
     <!-- 갤러리 -->
     <section class="section">
       <div class="card">
-        <p class="eyebrow">Gallery</p>
+        <p class="muted" style="margin:0 0 6px">Gallery</p>
         <div class="gallery">
           <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="사진 1">
           <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop" alt="사진 2">
@@ -149,27 +168,28 @@
       </div>
     </section>
 
-    <!-- 계좌 안내 (선택) -->
+    <!-- 계좌 -->
     <section class="section">
       <div class="card">
-        <p class="eyebrow">Account Info (선택)</p>
+        <p class="muted" style="margin:0 0 6px">Account Info (선택)</p>
         <ul class="list">
           <li class="kv"><span>신랑측</span><strong>OO은행 123-456-789012 (홍길동)</strong></li>
           <li class="kv"><span>신부측</span><strong>OO은행 987-654-321098 (김민지)</strong></li>
         </ul>
-        <p class="note">계좌 표기는 취향에 따라 숨기거나, 버튼 클릭 시 나타나도록 변경할 수 있습니다.</p>
       </div>
     </section>
 
-    <!-- RSVP (외부 폼) -->
-    <section class="section">
-      <div class="card">
-        <p class="eyebrow">RSVP</p>
-        <p class="muted">아래 버튼을 눌러 참석 여부를 알려주세요.</p>
-        <div class="grid two">
-          <a class="btn brand" target="_blank" rel="noopener" href="https://forms.gle/">RSVP 작성하기</a>
-          <a class="btn" href="#top">맨 위로</a>
-        </div>
+    <!-- RSVP (영문, 스크린샷 스타일) -->
+    <section class="section" id="rsvp">
+      <div class="card rsvp-block">
+        <p class="rsvp-eyebrow">RSVP</p>
+        <p class="rsvp-copy">
+          We’re grateful to celebrate with you.<br/>
+          To help us plan thoughtfully, please let us know<br/>
+          whether you’ll be able to attend.
+        </p>
+        <a class="btn brand full" target="_blank" rel="noopener"
+           href="https://forms.gle/your-form-id">Send RSVP</a>
       </div>
     </section>
 
@@ -197,7 +217,7 @@
     // 캘린더(ICS)
     document.getElementById('btnAddCal')?.addEventListener('click', () => {
       const title='Wedding of Daniel & Diana';
-      const start=new Date(2026,5,6,13,30);
+      const start=new Date(2026,5,6,13,30); // 2026-06-06 13:30
       const end=new Date(2026,5,6,15,30);
       const loc='[예식장/홀명]';
       const pad=n=>String(n).padStart(2,'0');
