@@ -35,8 +35,8 @@
         <p class="eyebrow">RSVP</p>
         <h1 class="title">Daniel & Diana — RSVP</h1>
       </div>
-      <!-- ✅ 상대경로로 변경 -->
-      <a class="btn" href="./index.html">← Back</a>
+      <!-- 뒤로가기 우선, 히스토리 없으면 index.html로 -->
+      <a class="btn" href="./index.html" id="backBtn">← Back</a>
     </div>
 
     <p>We’d be honored to celebrate with you. Please let us know if you’ll be able to attend.</p>
@@ -83,12 +83,24 @@
     </form>
   </div>
 
+  <!-- 뒤로가기 핸들러: 버튼이 생성된 이후에 실행 -->
+  <script>
+    document.getElementById('backBtn')?.addEventListener('click', (e) => {
+      const canGoBack = window.history.length > 1 && document.referrer !== '';
+      if (canGoBack) {
+        e.preventDefault();
+        window.history.back();
+      }
+      // 히스토리가 없으면 a의 href("./index.html")로 이동(fallback)
+    });
+  </script>
+
   <!-- Supabase insert -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
+    const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co"; // 실제 URL
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE"; // 실제 anon 키
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const form = document.getElementById("rsvpForm");
