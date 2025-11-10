@@ -94,6 +94,19 @@
     }
     .rsvp-copy{ margin:0 0 16px; line-height:1.9; color:#0f172a; }
     .btn.full{ width:100%; height:52px; font-weight:700; font-size:16px; border-radius:12px; }
+
+    /* RSVP form styles */
+    .rsvp-form{max-width:720px;margin:0 auto;display:grid;gap:12px}
+    .field{display:grid;gap:6px}
+    .field label{font-size:14px;color:#475569}
+    .field input,.field select,.field textarea{
+      width:100%;padding:12px;border:1px solid var(--line);
+      border-radius:10px;background:#fff;font-size:16px
+    }
+    .choices{display:flex;gap:16px;flex-wrap:wrap}
+    .rsvp-msg{margin-top:10px;font-size:14px}
+    .rsvp-msg.success{color:#047857}
+    .rsvp-msg.error{color:#b91c1c}
   </style>
 </head>
 <body>
@@ -171,16 +184,55 @@
       </div>
     </section>
 
-    <!-- RSVP -->
+    <!-- RSVP (Supabase direct) -->
     <section class="section" id="rsvp">
       <div class="card rsvp-block">
         <p class="rsvp-eyebrow">RSVP</p>
         <p class="rsvp-copy">
           We’d be honored to celebrate with you.<br/>
-          please let us know if you’ll be able to attend.
+          Please let us know if you’ll be able to attend.
         </p>
-        <a class="btn brand full" target="_blank" rel="noopener"
-           href="https://forms.gle/your-form-id">Send RSVP</a>
+
+        <form id="rsvpForm" class="rsvp-form" novalidate>
+          <div class="field">
+            <label for="name">Full name *</label>
+            <input id="name" name="name" type="text" required placeholder="Your name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email (optional)</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" />
+          </div>
+
+          <div class="field">
+            <label>Will you attend? *</label>
+            <div class="choices">
+              <label><input type="radio" name="attending" value="yes" required /> Yes, I will attend</label>
+              <label><input type="radio" name="attending" value="no" /> No, I can’t attend</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="party_size">Total guests (including you)</label>
+            <select id="party_size" name="party_size">
+              <option value="1" selected>1 (Just me)</option>
+              <option value="2">2</option><option value="3">3</option>
+              <option value="4">4</option><option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+            <small class="muted">If you can’t attend, select “No” above.</small>
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes (dietary, seating, etc.)</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Anything we should know?"></textarea>
+          </div>
+
+          <button id="submitBtn" class="btn brand full" type="submit">Send RSVP</button>
+
+          <p id="rsvpSuccess" class="rsvp-msg success" hidden>Thank you! Your RSVP has been recorded.</p>
+          <p id="rsvpError" class="rsvp-msg error" hidden>Sorry—something went wrong. Please try again.</p>
+        </form>
       </div>
     </section>
 
@@ -230,19 +282,84 @@ END:VCALENDAR`;
     });
   </script>
 
-  <!-- ✅ Supabase 클라이언트(테스트용) -->
+  <!-- Supabase로 RSVP 저장 -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    // 여기에 실제 값 넣기 전까지는 임시로 xxx로 둡니다.
-    const SUPABASE_URL = "https://xxx.supabase.co";
-    const SUPABASE_ANON_KEY = "xxx";
+    // 실제 값으로 교체하면 즉시 동작
+    const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 선택: 동작 확인용 - rsvps 1건 조회
-    const { data, error } = await supabase.from("rsvps").select("*").limit(1);
-    console.log("rsvps sample:", { data, error });
+    const form = document.getElementById("rsvpForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const msgOk = document.getElementById("rsvpSuccess");
+    const msgErr = document.getElementById("rsvpError");
+    const partySelect = document.getElementById("party_size");
+    const attendRadios = form?.querySelectorAll('input[name="attending"]');
+
+    // 참석 선택에 따라 party_size 자동 제어
+    attendRadios?.forEach(r => {
+      r.addEventListener('change', () => {
+        const isNo = r.value === 'no' && r.checked;
+        if (isNo) {
+          partySelect.value = "0";
+          partySelect.disabled = true;
+        } else if (r.value === 'yes' && r.checked) {
+          if (partySelect.value === "0") partySelect.value = "1";
+          partySelect.disabled = false;
+        }
+      });
+    });
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msgOk.hidden = true; msgErr.hidden = true;
+
+      const f = new FormData(form);
+      const name = String(f.get("name") || "").trim();
+      const email = String(f.get("email") || "").trim();
+      const attendingVal = String(f.get("attending") || "");
+      const notes = String(f.get("notes") || "").trim();
+
+      if (!name || (attendingVal !== "yes" && attendingVal !== "no")) {
+        msgErr.textContent = "Please fill the required fields.";
+        msgErr.hidden = false;
+        return;
+      }
+
+      const attending = attendingVal === "yes";
+      let party_size = parseInt(String(f.get("party_size") || (attending ? "1" : "0")), 10) || 0;
+
+      // 강제 범위: 참석이면 1~6, 불참이면 0
+      if (!attending) party_size = 0;
+      if (attending && (party_size < 1 || party_size > 6)) party_size = 1;
+
+      submitBtn.disabled = true; submitBtn.textContent = "Sending…";
+
+      const { error } = await supabase.from("rsvps").insert({
+        name,
+        email: email || null,
+        attending,
+        party_size,
+        notes: notes || null
+      });
+
+      if (error) {
+        console.error(error);
+        msgErr.textContent = "Sorry—something went wrong. Please try again.";
+        msgErr.hidden = false;
+      } else {
+        form.reset();
+        partySelect.disabled = false;
+        partySelect.value = "1";
+        msgOk.hidden = false;
+      }
+
+      submitBtn.disabled = false; submitBtn.textContent = "Send RSVP";
+    });
   </script>
 </body>
 </html>
+
