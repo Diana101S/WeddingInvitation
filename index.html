@@ -5,36 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wedding of Daniel & Diana</title>
 
-  <!-- OG (메신저 미리보기) — 절대 URL 권장 -->
+  <!-- OG -->
   <meta property="og:title" content="Wedding of Daniel & Diana" />
   <meta property="og:description" content="2026.06.06 | [예식장/홀명]" />
-  <!-- 예: https://Diana101S.github.io/WeddingInvitation/assets/cover.jpg?v=1 -->
   <meta property="og:image" content="공개링크_청첩장메인사진.png" />
   <meta property="og:url" content="https://Diana101S.github.io/WeddingInvitation/" />
   <meta property="og:type" content="website" />
 
   <meta name="format-detection" content="telephone=no" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg:#fffdfa;--ink:#0f172a;--sub:#334155;--brand:#86AEDB;--soft:#f1f5f9;--line:#e7e7e7;
+      /* for English ornament block */
+      --paper:#ffffff;--muted:#6B7280;--accent:#E9C89B;--rule:#E6D7BD;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+      font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
     img{max-width:100%;display:block}
     a{color:inherit}
     .wrap{max-width:720px;margin:0 auto}
 
     /* ▼ 히어로: '안잘림' 설정 */
     .hero{position:relative}
-    .hero img{
-      width:100%;
-      height:auto;              /* 핵심: 고정 높이 제거 */
-      /* object-fit:contain; */ /* 필요 시 여백 생겨도 전체 보이게 하고 싶으면 주석 해제 */
-    }
-
+    .hero img{width:100%;height:auto}
     .badge{position:absolute;right:16px;bottom:16px;background:#ffffffdd;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;backdrop-filter:saturate(180%) blur(6px)}
+
     .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
     .section{padding:28px 16px}
     .title{font-weight:700;font-size:22px;margin:0 0 12px}
@@ -42,7 +43,6 @@
     .muted{color:var(--sub)}
     .grid{display:grid;gap:12px}
     .grid.two{grid-template-columns:1fr 1fr}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
     .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;text-decoration:none}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
     .list{margin:12px 0 0;padding:0;list-style:none}
@@ -55,19 +55,46 @@
     .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
     .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
     .sticky-share .bar{max-width:720px;margin:0 auto;display:flex;gap:8px;padding:10px 12px}
-    .field{display:grid;gap:6px}
-    .field input,.field textarea{width:100%;padding:12px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
     .map{border:0;width:100%;height:280px;border-radius:12px}
+
+    /* ===== 영어 인사 블록(오너먼트 스타일) ===== */
+    .eng-invite .headline{
+      font-family:"Playfair Display", serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--muted);font-size:clamp(14px,2.3vw,18px);margin:0 0 24px;text-align:center
+    }
+    .eng-invite .line-1{
+      font-family:"Playfair Display", serif;font-weight:700;font-size:clamp(18px,3.8vw,32px);
+      letter-spacing:.12em;line-height:1.5;margin:0 0 18px;text-align:center;color:var(--ink)
+    }
+    .eng-invite .line-2{
+      font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size:clamp(16px,2.6vw,19px);line-height:1.9;letter-spacing:.02em;margin:0;text-align:center;color:var(--ink)
+    }
+    .orn{position:relative;height:28px;margin:0 auto 28px;width:min(360px,70%);opacity:.95}
+    .orn::before,.orn::after{content:"";position:absolute;top:50%;height:1px;width:40%;background:linear-gradient(90deg,transparent,var(--rule));transform:translateY(-50%)}
+    .orn::before{left:0}
+    .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
+    .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <!-- HERO -->
     <header class="hero">
-      <!-- 파일명/경로를 네 파일로 교체하세요 (대소문자 정확히) -->
       <img src="공개링크_청첩장메인사진.png?v=2" alt="커버 이미지" />
       <div class="badge">2026.06.06 • [예식장]</div>
     </header>
+
+    <!-- ▼ 여기에 영어 인사 블록 삽입 -->
+    <section class="section">
+      <div class="card eng-invite" aria-label="English invitation">
+        <div class="orn" aria-hidden="true"><span class="dot"></span></div>
+        <p class="headline">You’re invited to celebrate with us.</p>
+        <h2 class="line-1">Years of love brought us here.</h2>
+        <p class="line-2">Today, we’re celebrating in <strong>Busan, South Korea</strong> on <strong>June 6, 2026</strong>.</p>
+        <div class="orn" style="margin:28px auto 0" aria-hidden="true"><span class="dot"></span></div>
+      </div>
+    </section>
 
     <!-- 인사말 / 커플 소개 -->
     <section class="section">
@@ -145,7 +172,7 @@
         </div>
       </div>
     </section>
- 
+
     <!-- 고정 공유 바 -->
     <div class="sticky-share">
       <div class="bar">
@@ -170,7 +197,7 @@
     // 캘린더(ICS)
     document.getElementById('btnAddCal')?.addEventListener('click', () => {
       const title='Wedding of Daniel & Diana';
-      const start=new Date(2026,5,6,13,30); // 2026-06-06 13:30
+      const start=new Date(2026,5,6,13,30);
       const end=new Date(2026,5,6,15,30);
       const loc='[예식장/홀명]';
       const pad=n=>String(n).padStart(2,'0');
