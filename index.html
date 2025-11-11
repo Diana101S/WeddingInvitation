@@ -206,24 +206,32 @@
 
     <!-- Guest Book -->
     <section class="section gbook" id="guestbook">
-      <p class="gb-title">GUEST BOOK</p>
-
+      <p class="gb-title">Guest Book</p>
+    
       <form id="gbForm" class="form" novalidate>
         <div class="field">
-          <input type="text" id="gb_name" name="name" placeholder="이름" required />
+          <input type="text" id="gb_name" name="name" placeholder="Your name" required />
         </div>
         <div class="field">
-          <input type="password" id="gb_pin" name="pin" inputmode="numeric" minlength="4" maxlength="6"
-                 placeholder="비밀번호 (4~6자리)" required />
+          <input
+            type="password"
+            id="gb_pin"
+            name="pin"
+            inputmode="numeric"
+            minlength="4"
+            maxlength="6"
+            placeholder="Passcode (4–6 digits)"
+            required
+          />
         </div>
         <div class="field">
-          <textarea id="gb_message" name="message" rows="3" placeholder="축하메시지" required></textarea>
+          <textarea id="gb_message" name="message" rows="3" placeholder="Write a message for the couple" required></textarea>
         </div>
-
-        <button id="gbSubmit" class="btn brand" type="submit">축하메시지 남기기</button>
-
-        <p id="gbOk"  class="msg ok"  hidden>감사합니다! 메시지가 전달되었습니다.</p>
-        <p id="gbErr" class="msg err" hidden>오류가 발생했습니다. 다시 시도해 주세요.</p>
+    
+        <button id="gbSubmit" class="btn brand" type="submit">Leave a Message</button>
+    
+        <p id="gbOk"  class="msg ok"  hidden>Thank you! Your message has been posted.</p>
+        <p id="gbErr" class="msg err" hidden>Something went wrong. Please try again.</p>
       </form>
     </section>
 
