@@ -105,6 +105,12 @@
     .gbook .msg.ok{color:#047857}
     .gbook .msg.err{color:#b91c1c}
 
+    /* 메시지 리스트 */
+    .gb-list{margin-top:18px;padding:0;list-style:none;display:grid;gap:10px}
+    .gb-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+    .gb-item .who{font-weight:700;margin:0 0 6px}
+    .gb-item .txt{margin:0;color:#0f172a;line-height:1.6}
+    .gb-item .time{margin-top:6px;font-size:12px;color:#64748b}
     .footer{padding:40px 16px 80px;color:#475569;text-align:center}
     .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
     .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
@@ -131,10 +137,9 @@
       </div>
     </section>
 
-    <!-- Calendar (이미지 사용: 파일명 교체) -->
+    <!-- Calendar -->
     <section class="section">
       <div class="calendar">
-        <!-- 캘린더 이미지 파일명을 실제 파일로 바꿔주세요 -->
         <img src="calendar.png" alt="June 2026 calendar with heart on 6th" />
         <div class="cap">Save the Date — 2026.06.06</div>
       </div>
@@ -207,7 +212,7 @@
     <!-- Guest Book -->
     <section class="section gbook" id="guestbook">
       <p class="gb-title">Guest Book</p>
-    
+
       <form id="gbForm" class="form" novalidate>
         <div class="field">
           <input type="text" id="gb_name" name="name" placeholder="Your name" required />
@@ -227,15 +232,18 @@
         <div class="field">
           <textarea id="gb_message" name="message" rows="3" placeholder="Write a message for the couple" required></textarea>
         </div>
-    
+
         <button id="gbSubmit" class="btn brand" type="submit">Leave a Message</button>
-    
+
         <p id="gbOk"  class="msg ok"  hidden>Thank you! Your message has been posted.</p>
         <p id="gbErr" class="msg err" hidden>Something went wrong. Please try again.</p>
       </form>
+
+      <!-- ✅ 전송된 메시지를 보여줄 영역 -->
+      <ul id="gbList" class="gb-list"></ul>
     </section>
 
-    <!-- RSVP 버튼 (별도 페이지로 이동) -->
+    <!-- RSVP 버튼 -->
     <section class="section" id="rsvp-cta">
       <div class="card" style="text-align:center">
         <a class="btn brand" href="./rsvp.html">Open RSVP Form</a>
@@ -288,7 +296,7 @@ END:VCALENDAR`;
     });
   </script>
 
-  <!-- Supabase Guest Book 저장 -->
+  <!-- Supabase Guest Book 저장 + 화면 즉시 반영 -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
@@ -302,6 +310,20 @@ END:VCALENDAR`;
       const data = new TextEncoder().encode(str);
       const hash = await crypto.subtle.digest('SHA-256', data);
       return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+
+    // 리스트에 아이템 추가(방금 보낸 메시지 즉시 표시)
+    const listEl = document.getElementById('gbList');
+    function prependMessage({name, message, created_at}){
+      const li = document.createElement('li');
+      li.className = 'gb-item';
+      const when = created_at ? new Date(created_at) : new Date();
+      li.innerHTML = `
+        <p class="who">${name}</p>
+        <p class="txt">${message.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+        <div class="time">${when.toLocaleString()}</div>
+      `;
+      listEl.prepend(li);
     }
 
     const form = document.getElementById('gbForm');
@@ -330,15 +352,19 @@ END:VCALENDAR`;
 
       try{
         const pin_hash = await sha256(pin);
-        const { error } = await supabase.from('guestbook').insert({
-          name, message: msg, pin_hash
-        });
+        const { data, error } = await supabase
+          .from('guestbook')
+          .insert({ name, message: msg, pin_hash })
+          .select('name,message,created_at')
+          .single(); // ← 삽입된 행을 바로 돌려받기
 
         if(error){
           console.error(error);
           err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
           err.hidden = false;
         }else{
+          // 화면에 바로 보여주기
+          prependMessage(data || {name, message: msg, created_at: new Date().toISOString()});
           form.reset();
           ok.hidden = false;
         }
@@ -347,9 +373,26 @@ END:VCALENDAR`;
         err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
         err.hidden = false;
       }finally{
-        btn.disabled = false; btn.textContent = "축하메시지 남기기";
+        btn.disabled = false; btn.textContent = "Leave a Message";
       }
     });
+
+    // ※ 새로고침 시 과거 메시지까지 보려면, rls에서 anon SELECT 허용 정책을 만들고
+    // 아래를 사용하세요(테이블 컬럼 중 pin_hash는 절대 선택하지 않도록!).
+    /*
+    async function loadLatest(){
+      const { data, error } = await supabase
+        .from('guestbook')
+        .select('name,message,created_at')
+        .order('created_at', {ascending:false})
+        .limit(20);
+      if(!error && data){
+        listEl.innerHTML = '';
+        data.forEach(prependMessage);
+      }
+    }
+    loadLatest();
+    */
   </script>
 </body>
 </html>
