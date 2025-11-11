@@ -352,19 +352,21 @@ END:VCALENDAR`;
 
       try{
         const pin_hash = await sha256(pin);
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('guestbook')
-          .insert({ name, message: msg, pin_hash })
-          .select('name,message,created_at')
-          .single(); // ← 삽입된 행을 바로 돌려받기
-
-        if(error){
+          .insert({ name, message: msg, pin_hash });
+        
+        if (error) {
           console.error(error);
           err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
           err.hidden = false;
-        }else{
-          // 화면에 바로 보여주기
-          prependMessage(data || {name, message: msg, created_at: new Date().toISOString()});
+        } else {
+          // 서버에서 값을 안 돌려줘도, 방금 보낸 내용으로 즉시 렌더링
+          prependMessage({
+            name,
+            message: msg,
+            created_at: new Date().toISOString()
+          });
           form.reset();
           ok.hidden = false;
         }
