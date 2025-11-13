@@ -293,16 +293,17 @@ END:VCALENDAR`;
     });
   </script>
 
-  <!-- Supabase Guest Book 저장 + 삭제 -->
+  <!-- Supabase Guest Book: 저장 + 삭제 + 새로고침 로드 -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    // 실제 프로젝트 값으로 교체
+    // ⬇⬇ 여기를 실제 값으로 교체 ⬇⬇
     const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
+    // ⬆⬆ 여기를 실제 값으로 교체 ⬆⬆
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // SHA-256 해시
     async function sha256(str){
       const data = new TextEncoder().encode(str);
       const hash = await crypto.subtle.digest('SHA-256', data);
@@ -311,11 +312,11 @@ END:VCALENDAR`;
 
     const listEl = document.getElementById('gbList');
 
-    // ★ 메시지 카드 렌더러: 삭제 버튼/ID 포함
+    // 메시지 카드 렌더러(삭제 버튼 포함)
     function prependMessage({id, name, message, created_at}){
       const li = document.createElement('li');
       li.className = 'gb-item';
-      if (id) li.dataset.id = id; // 삭제에 필요
+      if (id) li.dataset.id = id;
       const when = created_at ? new Date(created_at) : new Date();
       const safe = message.replace(/</g,'&lt;').replace(/>/g,'&gt;');
       li.innerHTML = `
@@ -329,12 +330,23 @@ END:VCALENDAR`;
       listEl.prepend(li);
     }
 
+    // 초기 로드: 서버에서 최근 글 가져오기 (읽기용 RPC)
+    async function loadLatest(limit=30){
+      const { data, error } = await supabase.rpc('list_guestbook', { limit_count: limit });
+      if (error) {
+        console.error('list_guestbook error:', error);
+        return;
+      }
+      listEl.innerHTML = '';
+      (data || []).forEach(prependMessage);
+    }
+
     const form = document.getElementById('gbForm');
     const btn  = document.getElementById('gbSubmit');
     const ok   = document.getElementById('gbOk');
     const err  = document.getElementById('gbErr');
 
-    // ★ 제출 → 삽입 → 화면 반영(클라에서 UUID 생성)
+    // 제출 → 삽입(클라 UUID) → 즉시 렌더
     form?.addEventListener('submit', async (e)=>{
       e.preventDefault();
       ok.hidden = true; err.hidden = true;
@@ -356,7 +368,7 @@ END:VCALENDAR`;
 
       try{
         const pin_hash = await sha256(pin);
-        const clientId = crypto.randomUUID(); // ★ 클라이언트에서 id 생성
+        const clientId = crypto.randomUUID();
 
         const { error } = await supabase
           .from('guestbook')
@@ -367,9 +379,8 @@ END:VCALENDAR`;
           err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
           err.hidden = false;
         } else {
-          // 방금 보낸 내용 즉시 렌더링(삭제 버튼 포함)
           prependMessage({
-            id: clientId,            // ★ 생성한 id 전달
+            id: clientId,
             name,
             message: msg,
             created_at: new Date().toISOString()
@@ -386,7 +397,7 @@ END:VCALENDAR`;
       }
     });
 
-    // ★ 삭제 버튼 델리게이션
+    // 삭제 버튼 동작: PIN 입력받아 RPC 호출
     document.addEventListener('click', async (e)=>{
       const btn = e.target.closest('.btn-delete');
       if (!btn) return;
@@ -395,18 +406,18 @@ END:VCALENDAR`;
       const id = li?.dataset?.id;
       if (!id) { alert('삭제 ID가 없습니다.'); return; }
 
-      const pin = prompt('Enter your passcode to delete this message'); // 4~6자리
+      const pin = prompt('Enter your passcode to delete this message');
       if (!pin) return;
 
       btn.disabled = true; btn.textContent = 'Deleting…';
 
       const { data, error } = await supabase.rpc('delete_guestbook_entry', {
-        _id: id,
-        _pin: pin
+        _id: id,   // uuid 문자열 전달
+        _pin: pin  // 평문 비밀번호(서버에서 해시 비교)
       });
 
       if (error) {
-        console.error(error);
+        console.error('delete_guestbook_entry error:', error);
         alert('Delete failed. Please try again.');
       } else if (data === true) {
         li.remove();
@@ -417,22 +428,8 @@ END:VCALENDAR`;
       btn.disabled = false; btn.textContent = 'Delete';
     });
 
-    // (선택) 새로고침 시 과거 메시지 불러오기
-    // RLS에서 anon SELECT 허용해 두었을 때만 사용.
-    /*
-    async function loadLatest(){
-      const { data, error } = await supabase
-        .from('guestbook')
-        .select('id,name,message,created_at') // pin_hash 절대 선택 금지
-        .order('created_at', {ascending:false})
-        .limit(20);
-      if(!error && data){
-        listEl.innerHTML = '';
-        data.forEach(prependMessage);
-      }
-    }
+    // 처음 로드 시 서버 글 표시
     loadLatest();
-    */
   </script>
 </body>
 </html>
