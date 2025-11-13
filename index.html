@@ -43,8 +43,9 @@
     .card{background:transparent;border:none;padding:0}
     .grid{display:grid;gap:12px}
     .grid.two{grid-template-columns:1fr 1fr}
-    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+    .btn.danger{border-color:#fecaca;background:#fee2e2}
     .muted{color:var(--sub)}
     .map{border:0;width:100%;height:280px;border-radius:12px}
 
@@ -108,13 +109,9 @@
     /* 메시지 리스트 */
     .gb-list{margin-top:18px;padding:0;list-style:none;display:grid;gap:10px}
     .gb-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-    .gb-item .who{font-weight:700;margin:0 0 6px}
-    .gb-item .txt{margin:0;color:#0f172a;line-height:1.6}
+    .gb-item .who{font-weight:700;margin:0 0 6px;display:flex;justify-content:space-between;gap:8px}
+    .gb-item .txt{margin:0;color:#0f172a;line-height:1.6;white-space:pre-wrap}
     .gb-item .time{margin-top:6px;font-size:12px;color:#64748b}
-    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
-    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
-    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
-    .sticky-share .bar{max-width:var(--maxw);margin:0 auto;display:flex;gap:8px;padding:10px 12px}
   </style>
 </head>
 <body>
@@ -239,7 +236,7 @@
         <p id="gbErr" class="msg err" hidden>Something went wrong. Please try again.</p>
       </form>
 
-      <!-- ✅ 전송된 메시지를 보여줄 영역 -->
+      <!-- 메시지 리스트 -->
       <ul id="gbList" class="gb-list"></ul>
     </section>
 
@@ -296,7 +293,7 @@ END:VCALENDAR`;
     });
   </script>
 
-  <!-- Supabase Guest Book 저장 + 화면 즉시 반영 -->
+  <!-- Supabase Guest Book 저장 + 삭제 -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
@@ -312,15 +309,21 @@ END:VCALENDAR`;
       return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');
     }
 
-    // 리스트에 아이템 추가(방금 보낸 메시지 즉시 표시)
     const listEl = document.getElementById('gbList');
-    function prependMessage({name, message, created_at}){
+
+    // ★ 메시지 카드 렌더러: 삭제 버튼/ID 포함
+    function prependMessage({id, name, message, created_at}){
       const li = document.createElement('li');
       li.className = 'gb-item';
+      if (id) li.dataset.id = id; // 삭제에 필요
       const when = created_at ? new Date(created_at) : new Date();
+      const safe = message.replace(/</g,'&lt;').replace(/>/g,'&gt;');
       li.innerHTML = `
-        <p class="who">${name}</p>
-        <p class="txt">${message.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+        <p class="who">
+          <span>${name}</span>
+          <button class="btn danger btn-delete" type="button">Delete</button>
+        </p>
+        <p class="txt">${safe}</p>
         <div class="time">${when.toLocaleString()}</div>
       `;
       listEl.prepend(li);
@@ -331,6 +334,7 @@ END:VCALENDAR`;
     const ok   = document.getElementById('gbOk');
     const err  = document.getElementById('gbErr');
 
+    // ★ 제출 → 삽입 → 화면 반영(클라에서 UUID 생성)
     form?.addEventListener('submit', async (e)=>{
       e.preventDefault();
       ok.hidden = true; err.hidden = true;
@@ -352,17 +356,20 @@ END:VCALENDAR`;
 
       try{
         const pin_hash = await sha256(pin);
+        const clientId = crypto.randomUUID(); // ★ 클라이언트에서 id 생성
+
         const { error } = await supabase
           .from('guestbook')
-          .insert({ name, message: msg, pin_hash });
-        
+          .insert({ id: clientId, name, message: msg, pin_hash });
+
         if (error) {
           console.error(error);
           err.textContent = "오류가 발생했습니다. 다시 시도해 주세요.";
           err.hidden = false;
         } else {
-          // 서버에서 값을 안 돌려줘도, 방금 보낸 내용으로 즉시 렌더링
+          // 방금 보낸 내용 즉시 렌더링(삭제 버튼 포함)
           prependMessage({
+            id: clientId,            // ★ 생성한 id 전달
             name,
             message: msg,
             created_at: new Date().toISOString()
@@ -379,13 +386,44 @@ END:VCALENDAR`;
       }
     });
 
-    // ※ 새로고침 시 과거 메시지까지 보려면, rls에서 anon SELECT 허용 정책을 만들고
-    // 아래를 사용하세요(테이블 컬럼 중 pin_hash는 절대 선택하지 않도록!).
+    // ★ 삭제 버튼 델리게이션
+    document.addEventListener('click', async (e)=>{
+      const btn = e.target.closest('.btn-delete');
+      if (!btn) return;
+
+      const li = btn.closest('.gb-item');
+      const id = li?.dataset?.id;
+      if (!id) { alert('삭제 ID가 없습니다.'); return; }
+
+      const pin = prompt('Enter your passcode to delete this message'); // 4~6자리
+      if (!pin) return;
+
+      btn.disabled = true; btn.textContent = 'Deleting…';
+
+      const { data, error } = await supabase.rpc('delete_guestbook_entry', {
+        _id: id,
+        _pin: pin
+      });
+
+      if (error) {
+        console.error(error);
+        alert('Delete failed. Please try again.');
+      } else if (data === true) {
+        li.remove();
+      } else {
+        alert('Passcode did not match.');
+      }
+
+      btn.disabled = false; btn.textContent = 'Delete';
+    });
+
+    // (선택) 새로고침 시 과거 메시지 불러오기
+    // RLS에서 anon SELECT 허용해 두었을 때만 사용.
     /*
     async function loadLatest(){
       const { data, error } = await supabase
         .from('guestbook')
-        .select('name,message,created_at')
+        .select('id,name,message,created_at') // pin_hash 절대 선택 금지
         .order('created_at', {ascending:false})
         .limit(20);
       if(!error && data){
