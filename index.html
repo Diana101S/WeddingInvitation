@@ -39,13 +39,18 @@
     /* Layout */
     .section{padding:28px 16px}
 
-    /* Flat */
-    .card{background:transparent;border:none;padding:0}
-    .grid{display:grid;gap:12px}
-    .grid.two{grid-template-columns:1fr 1fr}
+    /* Buttons */
     .btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
-    .btn.danger{border-color:#fecaca;background:#fee2e2}
+
+    /* ❌ 아이콘 전용 버튼 */
+    .icon-btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:28px;height:28px;border:1px solid var(--line);
+      border-radius:8px;background:#fff;cursor:pointer;line-height:1;
+    }
+    .icon-btn:hover{background:#fee2e2;border-color:#fecaca}
+
     .muted{color:var(--sub)}
     .map{border:0;width:100%;height:280px;border-radius:12px}
 
@@ -57,7 +62,7 @@
     }
     .eng-invite .headline{
       font-family:"Playfair Display", serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--muted);font-size:clamp(14px,2.3vw,18px);margin:0 0 24px;text-align:center
+      color:#999; font-size:clamp(14px,2.3vw,18px);margin:0 0 24px;text-align:center
     }
     .eng-invite .line-1{
       font-family:"Playfair Display", serif;font-weight:700;font-size:clamp(18px,3.8vw,32px);
@@ -73,45 +78,44 @@
     .orn::after{right:0;background:linear-gradient(90deg,var(--rule),transparent)}
     .orn .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--accent);border-radius:2px;box-shadow:0 0 0 4px rgba(233,200,155,.15)}
 
+    /* Grid */
+    .card{background:transparent;border:none;padding:0}
+    .grid{display:grid;gap:12px}
+    .grid.two{grid-template-columns:1fr 1fr}
+
     /* Calendar section */
     .calendar{display:grid;place-items:center;gap:14px}
     .calendar .cap{font-size:14px;color:#64748b}
     .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
 
-    /* 갤러리: 정사각형 */
+    /* Gallery */
     .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
-    .gallery img{
-      width:100%;
-      aspect-ratio:1/1;
-      object-fit:cover;
-      border-radius:8px;
-    }
+    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
 
-    /* Guest Book styles */
+    /* Guest Book */
     .gbook { padding: 28px 16px; }
     .gbook .gb-title{
-      font-family:"Playfair Display", serif;
-      color:#B9A06B; letter-spacing:.28em; text-transform:uppercase;
-      font-weight:700; text-align:center;
-      font-size:clamp(13px,2vw,16px); margin:0 0 18px;
+      font-family:"Playfair Display", serif;color:#B9A06B;letter-spacing:.28em;text-transform:uppercase;
+      font-weight:700;text-align:center;font-size:clamp(13px,2vw,16px);margin:0 0 18px;
     }
     .gbook .form{display:grid;gap:12px;max-width:var(--maxw);margin:0 auto;}
     .gbook .field{display:grid;gap:6px}
-    .gbook input,.gbook textarea{
-      width:100%;padding:12px;border:1px solid var(--line);
-      border-radius:10px;background:#fff;font-size:16px
-    }
-    .gbook .btn.full{width:100%;height:52px;font-weight:700;font-size:16px;border-radius:12px}
+    .gbook input,.gbook textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:16px}
     .gbook .msg{margin-top:10px;font-size:14px}
     .gbook .msg.ok{color:#047857}
     .gbook .msg.err{color:#b91c1c}
 
-    /* 메시지 리스트 */
+    /* 게시글 리스트 */
     .gb-list{margin-top:18px;padding:0;list-style:none;display:grid;gap:10px}
     .gb-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
     .gb-item .who{font-weight:700;margin:0 0 6px;display:flex;justify-content:space-between;gap:8px}
     .gb-item .txt{margin:0;color:#0f172a;line-height:1.6;white-space:pre-wrap}
     .gb-item .time{margin-top:6px;font-size:12px;color:#64748b}
+
+    .footer{padding:40px 16px 80px;color:#475569;text-align:center}
+    .disclaimer{font-size:12px;color:#64748b;margin-top:16px}
+    .sticky-share{position:sticky;bottom:0;background:#ffffffcc;border-top:1px solid var(--line);backdrop-filter:saturate(180%) blur(6px)}
+    .sticky-share .bar{max-width:var(--maxw);margin:0 auto;display:flex;gap:8px;padding:10px 12px}
   </style>
 </head>
 <body>
@@ -297,10 +301,10 @@ END:VCALENDAR`;
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    // ⬇⬇ 여기를 실제 값으로 교체 ⬇⬇
+    // ⬇⬇ 실제 값으로 교체 ⬇⬇
     const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
-    // ⬆⬆ 여기를 실제 값으로 교체 ⬆⬆
+    // ⬆⬆ 실제 값으로 교체 ⬆⬆
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -312,7 +316,7 @@ END:VCALENDAR`;
 
     const listEl = document.getElementById('gbList');
 
-    // 메시지 카드 렌더러(삭제 버튼 포함)
+    // 메시지 카드 렌더러(❌ 아이콘 삭제 버튼 포함)
     function prependMessage({id, name, message, created_at}){
       const li = document.createElement('li');
       li.className = 'gb-item';
@@ -322,7 +326,7 @@ END:VCALENDAR`;
       li.innerHTML = `
         <p class="who">
           <span>${name}</span>
-          <button class="btn danger btn-delete" type="button">Delete</button>
+          <button class="icon-btn btn-delete" type="button" aria-label="Delete">❌</button>
         </p>
         <p class="txt">${safe}</p>
         <div class="time">${when.toLocaleString()}</div>
@@ -397,7 +401,7 @@ END:VCALENDAR`;
       }
     });
 
-    // 삭제 버튼 동작: PIN 입력받아 RPC 호출
+    // 삭제(❌ 클릭 → PIN 입력 → RPC)
     document.addEventListener('click', async (e)=>{
       const btn = e.target.closest('.btn-delete');
       if (!btn) return;
@@ -409,11 +413,13 @@ END:VCALENDAR`;
       const pin = prompt('Enter your passcode to delete this message');
       if (!pin) return;
 
-      btn.disabled = true; btn.textContent = 'Deleting…';
+      btn.disabled = true;
+      const prevLabel = btn.textContent;
+      btn.textContent = '…';
 
       const { data, error } = await supabase.rpc('delete_guestbook_entry', {
-        _id: id,   // uuid 문자열 전달
-        _pin: pin  // 평문 비밀번호(서버에서 해시 비교)
+        _id: id,
+        _pin: pin
       });
 
       if (error) {
@@ -425,7 +431,8 @@ END:VCALENDAR`;
         alert('Passcode did not match.');
       }
 
-      btn.disabled = false; btn.textContent = 'Delete';
+      btn.disabled = false;
+      btn.textContent = prevLabel || '❌';
     });
 
     // 처음 로드 시 서버 글 표시
