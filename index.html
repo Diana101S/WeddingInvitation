@@ -97,8 +97,22 @@
     .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
 
     /* Gallery */
-    .gallery{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
-    .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
+    .gallery{
+      display:grid;
+      gap:8px;
+      grid-template-columns:repeat(3,1fr);
+    }
+    .gallery a{
+      display:block;
+      border-radius:8px;
+      overflow:hidden;
+    }
+    .gallery img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:8px;
+    }
 
     /* Guest Book */
     .gbook { padding: 28px 16px; }
@@ -196,9 +210,36 @@
       <div class="card">
         <p class="muted" style="margin:0 0 6px">Gallery</p>
         <div class="gallery">
-          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="Photo 1">
-          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop" alt="Photo 2">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop" alt="Photo 3">
+          <a href="1.jpg" target="_blank" rel="noopener">
+            <img src="1.jpg" alt="Wedding photo 1">
+          </a>
+          <a href="2.jpg" target="_blank" rel="noopener">
+            <img src="2.jpg" alt="Wedding photo 2">
+          </a>
+          <a href="3.jpg" target="_blank" rel="noopener">
+            <img src="3.jpg" alt="Wedding photo 3">
+          </a>
+          <a href="4.jpg" target="_blank" rel="noopener">
+            <img src="4.jpg" alt="Wedding photo 4">
+          </a>
+          <a href="5.jpg" target="_blank" rel="noopener">
+            <img src="5.jpg" alt="Wedding photo 5">
+          </a>
+          <a href="6.jpg" target="_blank" rel="noopener">
+            <img src="6.jpg" alt="Wedding photo 6">
+          </a>
+          <a href="7.jpg" target="_blank" rel="noopener">
+            <img src="7.jpg" alt="Wedding photo 7">
+          </a>
+          <a href="8.jpg" target="_blank" rel="noopener">
+            <img src="8.jpg" alt="Wedding photo 8">
+          </a>
+          <a href="9.jpg" target="_blank" rel="noopener">
+            <img src="9.jpg" alt="Wedding photo 9">
+          </a>
+          <a href="10.jpg" target="_blank" rel="noopener">
+            <img src="10.jpg" alt="Wedding photo 10">
+          </a>
         </div>
       </div>
     </section>
