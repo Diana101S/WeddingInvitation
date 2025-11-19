@@ -36,13 +36,13 @@
     /* HERO */
     .hero{
       position:relative;
-      overflow:hidden;
+      overflow:hidden; /* 벚꽃이 HERO 밖으로 안 나가게 */
     }
     .hero img{
       width:100%;
       height:auto;
       position:relative;
-      z-index:1; /* 이미지 레이어 */
+      z-index:1; /* 기본 이미지 레이어 */
     }
     .badge{
       position:absolute;right:16px;bottom:16px;
@@ -50,10 +50,10 @@
       padding:8px 12px;border-radius:999px;
       font-weight:600;font-size:14px;
       backdrop-filter:saturate(180%) blur(6px);
-      z-index:3; /* 벚꽃보다 위에 오게 */
+      z-index:3; /* 벚꽃 위로 올림 */
     }
 
-    /* Hero cherry blossom petals */
+    /* Hero cherry blossom petals (HERO 안에서만) */
     .hero-petal-layer{
       position:absolute;
       inset:0;
@@ -61,31 +61,28 @@
       overflow:hidden;
       z-index:2; /* 이미지 위, 배지 아래 */
     }
-    
     .petal{
-      --scale:1;
-      --x-move:0vw;
       position:absolute;
-      top:0;
+      top:-15%;
       width:18px;
       height:26px;
-      background:linear-gradient(135deg,#ffb7c9,#ffe8f0); /* 더 눈에 띄게 */
+      background:linear-gradient(135deg,#ff9cbf,#ffe4f0); /* 더 잘 보이게 핑크 */
       border-radius:70% 30% 70% 30%;
       opacity:0.9;
-      box-shadow:0 0 6px rgba(255,182,193,0.7);
+      box-shadow:0 0 8px rgba(255,160,190,0.8);
       animation:petal-fall linear infinite;
       transform-origin:center;
     }
     @keyframes petal-fall{
       0%{
-        transform:translate3d(0,-10vh,0) rotate(0deg) scale(var(--scale));
+        transform:translateY(-120%) rotate(0deg);
         opacity:0;
       }
       10%{
         opacity:1;
       }
       100%{
-        transform:translate3d(var(--x-move),110vh,0) rotate(360deg) scale(var(--scale));
+        transform:translateY(130%) rotate(360deg);
         opacity:0;
       }
     }
@@ -185,7 +182,7 @@
     }
     .time-box{
       min-width:80px;
-      padding:18px 14px; /* 세로 길이 늘림 */
+      padding:18px 14px; /* 세로 길게 */
       border-radius:10px;
       background:#f5e8d8; /* 따뜻한 베이지 */
       border:none;
@@ -609,7 +606,7 @@ END:VCALENDAR`;
       const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
     });
 
-    // Countdown (based on 2026-06-06 13:00 KST)
+    // Countdown (2026-06-06 13:00 KST)
     (function setupCountdown(){
       const daysEl   = document.getElementById('cd-days');
       const hoursEl  = document.getElementById('cd-hours');
@@ -680,41 +677,29 @@ END:VCALENDAR`;
       }
     });
 
-    // Hero cherry blossom petals
-// Hero cherry blossom petals
-  (function makePetals(){
-    const container = document.getElementById('petal-layer');
-    if (!container) return;
-  
-    const COUNT = 40; // 벚꽃 개수 (조금 늘림)
-  
-    for (let i = 0; i < COUNT; i++) {
-      const p = document.createElement('div');
-      p.className = 'petal';
-  
-      // 가로 시작 위치 (0~100vw)
-      p.style.left = (Math.random() * 100) + 'vw';
-  
-      // 크기 (0.7 ~ 1.3배)
-      const scale = (Math.random() * 0.6 + 0.7).toFixed(2);
-      p.style.setProperty('--scale', scale);
-  
-      // 좌우로 흘러가는 정도 (-30vw ~ 30vw)
-      const drift = (Math.random() * 60 - 30).toFixed(1);
-      p.style.setProperty('--x-move', drift + 'vw');
-  
-      // 떨어지는 속도 (10 ~ 20초)
-      p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-  
-      // 시작 타이밍 (이미 중간부터 떨어지는 것처럼 보이게 음수 딜레이)
-      p.style.animationDelay = (Math.random() * -20) + 's';
-  
-      // 투명도
-      p.style.opacity = (Math.random() * 0.4 + 0.6).toFixed(2);
-  
-      container.appendChild(p);
-    }
-  })();
+    // Hero cherry blossom petals (단순 버전)
+    (function makePetals(){
+      const container = document.getElementById('petal-layer');
+      if (!container) return;
+
+      const COUNT = 40; // 벚꽃 개수
+
+      for (let i = 0; i < COUNT; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+
+        // HERO 안 가로 위치 (0~100%)
+        p.style.left = (Math.random() * 100) + '%';
+
+        // 떨어지는 속도 (6~14초)
+        p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+
+        // 시작 타이밍 (음수 → 이미 떨어지고 있는 것처럼)
+        p.style.animationDelay = (Math.random() * -14) + 's';
+
+        container.appendChild(p);
+      }
+    })();
   </script>
 
   <!-- Supabase Guest Book -->
