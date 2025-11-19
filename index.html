@@ -56,7 +56,7 @@
     }
     .btn.brand{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
 
-    /* Icon button: borderless / transparent + thin black X */
+    /* Icon button */
     .icon-btn{
       position:relative;
       width:24px;height:24px;
@@ -125,6 +125,49 @@
     .calendar{display:grid;place-items:center;gap:14px}
     .calendar .cap{font-size:14px;color:#64748b}
     .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
+
+    /* Countdown */
+    .countdown-wrap{
+      text-align:center;
+    }
+    .countdown-row{
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+      gap:8px;
+      margin-top:8px;
+    }
+    .time-box{
+      min-width:80px;
+      padding:18px 14px; /* 세로 길이 늘림 */
+      border-radius:10px;
+      background:#f5e8d8; /* 따뜻한 베이지 */
+      border:none;
+    }
+    .time-label{
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#9a7f5a;
+      margin-bottom:8px;
+    }
+    .time-value{
+      font-size:22px;
+      font-weight:600;
+      color:#4b3825;
+    }
+    .time-colon{
+      align-self:center;
+      font-size:20px;
+      color:#b19773;
+      padding:0 2px;
+    }
+    .count-text{
+      margin-top:12px;
+      font-size:14px;
+      color:var(--muted);
+      text-align:center;
+    }
 
     /* Gallery */
     .gallery{
@@ -253,7 +296,7 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap" id="top">
     <!-- HERO -->
     <header class="hero">
       <img src="공개링크_청첩장메인사진.png?v=2" alt="Cover image" />
@@ -280,6 +323,46 @@
       <div class="calendar">
         <img src="calendar.png" alt="June 2026 calendar with a heart on the 6th" />
         <div class="cap">Save the Date — 2026.06.06</div>
+      </div>
+    </section>
+
+    <!-- Countdown -->
+    <section class="section" id="countdown">
+      <div class="card countdown-wrap">
+        <p class="muted" style="margin:0 0 6px">Countdown</p>
+
+        <div class="countdown-row">
+          <div class="time-box">
+            <div class="time-label">DAYS</div>
+            <div id="cd-days" class="time-value">000</div>
+          </div>
+
+          <div class="time-colon">:</div>
+
+          <div class="time-box">
+            <div class="time-label">HOUR</div>
+            <div id="cd-hours" class="time-value">00</div>
+          </div>
+
+          <div class="time-colon">:</div>
+
+          <div class="time-box">
+            <div class="time-label">MIN</div>
+            <div id="cd-mins" class="time-value">00</div>
+          </div>
+
+          <div class="time-colon">:</div>
+
+          <div class="time-box">
+            <div class="time-label">SEC</div>
+            <div id="cd-secs" class="time-value">00</div>
+          </div>
+        </div>
+
+        <p class="count-text">
+          The wedding of Daniel &amp; Diana is in
+          <strong><span id="cd-days-text">0</span> days</strong>.
+        </p>
       </div>
     </section>
 
@@ -477,6 +560,39 @@ END:VCALENDAR`;
       const a=document.createElement('a'); a.href=url; a.download='wedding-invite.ics'; a.click(); URL.revokeObjectURL(url);
     });
 
+    // Countdown (based on 2026-06-06 13:00 KST)
+    (function setupCountdown(){
+      const daysEl   = document.getElementById('cd-days');
+      const hoursEl  = document.getElementById('cd-hours');
+      const minsEl   = document.getElementById('cd-mins');
+      const secsEl   = document.getElementById('cd-secs');
+      const daysTxt  = document.getElementById('cd-days-text');
+
+      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+      const target = new Date("2026-06-06T13:00:00+09:00").getTime();
+
+      function update(){
+        const now = Date.now();
+        let diff = target - now;
+        if (diff < 0) diff = 0;
+
+        const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins  = Math.floor((diff / (1000 * 60)) % 60);
+        const secs  = Math.floor((diff / 1000) % 60);
+
+        daysEl.textContent  = String(days).padStart(3,'0');
+        hoursEl.textContent = String(hours).padStart(2,'0');
+        minsEl.textContent  = String(mins).padStart(2,'0');
+        secsEl.textContent  = String(secs).padStart(2,'0');
+        if (daysTxt) daysTxt.textContent = days;
+      }
+
+      update();
+      setInterval(update, 1000);
+    })();
+
     // Lightbox for gallery
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
@@ -516,14 +632,12 @@ END:VCALENDAR`;
     });
   </script>
 
-  <!-- Supabase Guest Book: save + delete + load on refresh -->
+  <!-- Supabase Guest Book -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    // ⬇⬇ Replace with your actual values ⬇⬇
     const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
-    // ⬆⬆ Replace with your actual values ⬆⬆
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -535,7 +649,6 @@ END:VCALENDAR`;
 
     const listEl = document.getElementById('gbList');
 
-    // Message card renderer (with delete icon button)
     function prependMessage({id, name, message, created_at}){
       const li = document.createElement('li');
       li.className = 'gb-item';
@@ -553,7 +666,6 @@ END:VCALENDAR`;
       listEl.prepend(li);
     }
 
-    // Initial load: fetch recent messages from the server (read-only RPC)
     async function loadLatest(limit=30){
       const { data, error } = await supabase.rpc('list_guestbook', { limit_count: limit });
       if (error) {
@@ -569,7 +681,6 @@ END:VCALENDAR`;
     const ok   = document.getElementById('gbOk');
     const err  = document.getElementById('gbErr');
 
-    // Submit → insert (client UUID) → render immediately
     form?.addEventListener('submit', async (e)=>{
       e.preventDefault();
       ok.hidden = true; err.hidden = true;
@@ -620,7 +731,6 @@ END:VCALENDAR`;
       }
     });
 
-    // Delete (click icon → enter PIN → RPC)
     document.addEventListener('click', async (e)=>{
       const btn = e.target.closest('.btn-delete');
       if (!btn) return;
@@ -651,7 +761,6 @@ END:VCALENDAR`;
       btn.disabled = false;
     });
 
-    // Load messages on first render
     loadLatest();
   </script>
 </body>
