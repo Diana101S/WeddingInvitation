@@ -34,14 +34,54 @@
     .wrap{max-width:var(--maxw);margin:0 auto}
 
     /* HERO */
-    .hero{position:relative}
+    .hero{
+      position:relative;
+      overflow:hidden; /* 벚꽃이 HERO 바깥으로 안 나가게 */
+    }
     .hero img{width:100%;height:auto}
     .badge{
       position:absolute;right:16px;bottom:16px;
       background:#ffffffdd;color:var(--ink);
       padding:8px 12px;border-radius:999px;
       font-weight:600;font-size:14px;
-      backdrop-filter:saturate(180%) blur(6px)
+      backdrop-filter:saturate(180%) blur(6px);
+      z-index:3;
+    }
+
+    /* Hero cherry blossom layer */
+    .hero-petal-layer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:2; /* 이미지 위, 배지 아래(필요하면 4로 올려도 됨) */
+    }
+    .petal{
+      --scale:1;
+      --x-move:0%;
+      position:absolute;
+      top:-40px;
+      width:16px;
+      height:24px;
+      background:linear-gradient(135deg,#ffd4e0,#ffeef5);
+      border-radius:70% 30% 70% 30%;
+      opacity:0.85;
+      box-shadow:0 0 6px rgba(255,182,193,0.6);
+      animation:petal-fall linear infinite;
+      transform-origin:center;
+    }
+    @keyframes petal-fall{
+      0%{
+        transform:translate3d(0,-40px,0) rotate(0deg) scale(var(--scale));
+        opacity:0;
+      }
+      10%{
+        opacity:1;
+      }
+      100%{
+        transform:translate3d(var(--x-move),110%,0) rotate(360deg) scale(var(--scale));
+        opacity:0;
+      }
     }
 
     /* Layout */
@@ -299,6 +339,9 @@
   <div class="wrap" id="top">
     <!-- HERO -->
     <header class="hero">
+      <!-- 벚꽃 레이어 (첫 메인 사진 위에서만) -->
+      <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
+
       <img src="공개링크_청첩장메인사진.png?v=2" alt="Cover image" />
       <div class="badge">2026.06.06 • [Venue]</div>
     </header>
@@ -630,6 +673,41 @@ END:VCALENDAR`;
         closeLightbox();
       }
     });
+
+    // Hero cherry blossom petals
+    (function makePetals(){
+      const container = document.getElementById('petal-layer');
+      if (!container) return;
+
+      const COUNT = 28; // 벚꽃 개수 (원하면 20~40 사이로 조절)
+
+      for (let i = 0; i < COUNT; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+
+        // 가로 위치
+        p.style.left = (Math.random() * 100) + '%';
+
+        // 크기 (0.7 ~ 1.2배)
+        const scale = (Math.random() * 0.5 + 0.7).toFixed(2);
+        p.style.setProperty('--scale', scale);
+
+        // 좌우로 흘러가는 정도 (-40% ~ 40%)
+        const drift = (Math.random() * 80 - 40).toFixed(1);
+        p.style.setProperty('--x-move', drift + '%');
+
+        // 떨어지는 속도 (12 ~ 22초)
+        p.style.animationDuration = (Math.random() * 10 + 12) + 's';
+
+        // 시작 타이밍 (이미 중간에 떨어지는 것처럼 보이도록 음수 딜레이)
+        p.style.animationDelay = (Math.random() * -20) + 's';
+
+        // 투명도
+        p.style.opacity = (Math.random() * 0.4 + 0.6).toFixed(2);
+
+        container.appendChild(p);
+      }
+    })();
   </script>
 
   <!-- Supabase Guest Book -->
