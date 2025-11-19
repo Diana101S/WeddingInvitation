@@ -36,50 +36,56 @@
     /* HERO */
     .hero{
       position:relative;
-      overflow:hidden; /* 벚꽃이 HERO 바깥으로 안 나가게 */
+      overflow:hidden;
     }
-    .hero img{width:100%;height:auto}
+    .hero img{
+      width:100%;
+      height:auto;
+      position:relative;
+      z-index:1; /* 이미지 레이어 */
+    }
     .badge{
       position:absolute;right:16px;bottom:16px;
       background:#ffffffdd;color:var(--ink);
       padding:8px 12px;border-radius:999px;
       font-weight:600;font-size:14px;
       backdrop-filter:saturate(180%) blur(6px);
-      z-index:3;
+      z-index:3; /* 벚꽃보다 위에 오게 */
     }
 
-    /* Hero cherry blossom layer */
+    /* Hero cherry blossom petals */
     .hero-petal-layer{
       position:absolute;
       inset:0;
       pointer-events:none;
       overflow:hidden;
-      z-index:2; /* 이미지 위, 배지 아래(필요하면 4로 올려도 됨) */
+      z-index:2; /* 이미지 위, 배지 아래 */
     }
+    
     .petal{
       --scale:1;
-      --x-move:0%;
+      --x-move:0vw;
       position:absolute;
-      top:-40px;
-      width:16px;
-      height:24px;
-      background:linear-gradient(135deg,#ffd4e0,#ffeef5);
+      top:0;
+      width:18px;
+      height:26px;
+      background:linear-gradient(135deg,#ffb7c9,#ffe8f0); /* 더 눈에 띄게 */
       border-radius:70% 30% 70% 30%;
-      opacity:0.85;
-      box-shadow:0 0 6px rgba(255,182,193,0.6);
+      opacity:0.9;
+      box-shadow:0 0 6px rgba(255,182,193,0.7);
       animation:petal-fall linear infinite;
       transform-origin:center;
     }
     @keyframes petal-fall{
       0%{
-        transform:translate3d(0,-40px,0) rotate(0deg) scale(var(--scale));
+        transform:translate3d(0,-10vh,0) rotate(0deg) scale(var(--scale));
         opacity:0;
       }
       10%{
         opacity:1;
       }
       100%{
-        transform:translate3d(var(--x-move),110%,0) rotate(360deg) scale(var(--scale));
+        transform:translate3d(var(--x-move),110vh,0) rotate(360deg) scale(var(--scale));
         opacity:0;
       }
     }
