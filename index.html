@@ -246,16 +246,23 @@
       gap:12px;
       margin-top:18px;
     }
+    @media (min-width:560px){
+      .loc-actions{
+        flex-direction:row;
+      }
+    }
     .loc-btn{
-      display:flex;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
-      height:44px;
-      border-radius:999px;
+      height:52px;          /* 세로 더 길게 */
+      padding:0 24px;       /* 좌우 여유 */
+      border-radius:999px;  /* 동그란 알약 모양 */
       border:none;
       text-decoration:none;
-      font-size:14px;
-      font-weight:500;
+      font-size:15px;
+      font-weight:600;
+      line-height:1;        /* 텍스트 세로 중앙 맞추기 */
       cursor:pointer;
       background:#e2b08a;
       color:#fff;
