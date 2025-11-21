@@ -7,7 +7,7 @@
 
   <!-- OG -->
   <meta property="og:title" content="Wedding of Daniel & Diana" />
-  <meta property="og:description" content="2026.06.06 | [Venue / Hall Name]" />
+  <!-- <meta property="og:description" content="2026.06.06 | [Venue / Hall Name]" /> -->
   <meta property="og:image" content="공개링크_청첩장메인사진.png" />
   <meta property="og:url" content="https://Diana101S.github.io/WeddingInvitation/" />
   <meta property="og:type" content="website" />
@@ -36,13 +36,13 @@
     /* HERO */
     .hero{
       position:relative;
-      overflow:hidden; /* 벚꽃이 HERO 밖으로 안 나가게 */
+      overflow:hidden;
     }
     .hero img{
       width:100%;
       height:auto;
       position:relative;
-      z-index:1; /* 기본 이미지 레이어 */
+      z-index:1;
     }
     .badge{
       position:absolute;right:16px;bottom:16px;
@@ -50,7 +50,7 @@
       padding:8px 12px;border-radius:999px;
       font-weight:600;font-size:14px;
       backdrop-filter:saturate(180%) blur(6px);
-      z-index:3; /* 벚꽃 위로 올림 */
+      z-index:3;
     }
 
     /* Hero cherry blossom petals (HERO 안에서만) */
@@ -59,13 +59,12 @@
       inset:0;
       pointer-events:none;
       overflow:hidden;
-      z-index:2; /* 이미지 위, 배지 아래 */
+      z-index:2;
     }
-    
     /* 눈 + 벚꽃 중간 느낌 */
     .petal{
       position:absolute;
-      top:-8vh;                   /* 화면 위쪽에서 살짝 시작 */
+      top:-8vh;
       width:12px;
       height:16px;
       background:radial-gradient(circle at 30% 30%, #ffffff, #ffeef7 60%, #ffd7e5 100%);
@@ -75,7 +74,6 @@
       animation:petal-fall linear infinite;
       transform-origin:center;
     }
-    
     @keyframes petal-fall{
       0%{
         transform:translate3d(0,-10vh,0) rotate(0deg);
@@ -172,69 +170,134 @@
     .calendar .cap{font-size:14px;color:#64748b}
     .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
 
-    /* Mini calendar (JUNE with heart on 6th) */
-    .mini-cal{
-      font-family:"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color:#111;
-      text-align:center;
+    /* Location & Directions section */
+    .loc-section{
+      padding:40px 16px;
+      background:#f7f0e7;
     }
-    .mini-cal-month{
-      font-family:"Playfair Display", "Times New Roman", serif;
+    .loc-title{
+      font-family:"Playfair Display", serif;
       font-size:28px;
-      letter-spacing:0.28em;
-      text-indent:0.28em;
-      margin-bottom:14px;
+      font-weight:700;
+      text-align:center;
+      margin:0 0 24px;
+      color:#4b2b1c;
     }
-    .mini-cal-grid{
-      display:grid;
-      grid-template-columns:repeat(7, 34px);
-      grid-auto-rows:30px;
-      justify-content:center;
-      gap:4px 12px;
-      font-size:14px;
+    .loc-card{
+      background:#ffffff;
+      border-radius:20px;
+      padding:20px 18px;
+      box-shadow:0 6px 18px rgba(148,116,89,0.08);
+      max-width:var(--maxw);
+      margin:0 auto 18px;
     }
-    .mini-cal-dow{
-      font-size:10px;
-      letter-spacing:0.22em;
-      text-indent:0.22em;
-      color:#444;
-    }
-    .mini-cal-day{
+    .loc-main-header{
       display:flex;
-      align-items:center;
-      justify-content:center;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:16px;
+    }
+    .loc-icon{
+      font-size:20px;
+      line-height:1.2;
+      margin-top:2px;
+    }
+    .loc-name{
+      margin:0 0 4px;
+      font-weight:700;
+      color:#1f2933;
+    }
+    .loc-addr{
+      margin:0;
       font-size:14px;
+      color:#4b5563;
+      line-height:1.6;
     }
-    .mini-cal-day.sun{
-      color:#d11c1c;
-    }
-    .mini-cal-day.sat.red{
-      color:#d11c1c;
-    }
-    .mini-cal-day.empty{
-      pointer-events:none;
-    }
-    .mini-cal-heart{
-      position:relative;
-      width:34px;
-      height:30px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#e01b1b;
-      font-size:13px;
-      font-weight:500;
-    }
-    .mini-cal-heart svg{
-      position:absolute;
-      inset:0;
+    .loc-copy-row{
+      margin-top:14px;
       width:100%;
-      height:100%;
-      pointer-events:none;
+      border-radius:999px;
+      border:1px solid #e5d6c7;
+      padding:10px 16px;
+      background:#fbf7f1;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:13px;
+      cursor:pointer;
     }
-    .mini-cal-heart span{
-      position:relative;
-      z-index:1;
+    .loc-copy-text{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      color:#4b5563;
+    }
+    .loc-copy-icon{
+      font-size:12px;
+      color:#9a7f5a;
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .loc-actions{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:16px;
+    }
+    .loc-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:44px;
+      border-radius:999px;
+      border:none;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:500;
+      cursor:pointer;
+      background:#e2b08a;
+      color:#fff;
+    }
+    .loc-btn-primary{
+      background:#d27b4a;
+    }
+    .loc-btn span{
+      margin-left:6px;
+    }
+    .loc-subtitle{
+      font-weight:600;
+      margin:0 0 12px;
+      font-size:15px;
+      color:#374151;
+    }
+    .loc-item{
+      padding:10px 0;
+      border-top:1px solid #f1e4d8;
+    }
+    .loc-item:first-of-type{
+      border-top:none;
+    }
+    .loc-item-title{
+      font-size:14px;
+      font-weight:500;
+      margin:0 0 4px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#374151;
+    }
+    .loc-item-text{
+      margin:0;
+      font-size:13px;
+      color:#6b7280;
+      line-height:1.6;
+    }
+    @media (min-width:560px){
+      .loc-actions{
+        flex-direction:row;
+      }
     }
 
     /* Countdown */
@@ -250,9 +313,9 @@
     }
     .time-box{
       min-width:80px;
-      padding:18px 14px; /* 세로 길게 */
+      padding:18px 14px;
       border-radius:10px;
-      background:#f5e8d8; /* 따뜻한 베이지 */
+      background:#f5e8d8;
       border:none;
     }
     .time-label{
@@ -432,89 +495,10 @@
       </div>
     </section>
 
-    <!-- Calendar (하트 달린 JUNE 캘린더) -->
+    <!-- Calendar -->
     <section class="section">
       <div class="calendar">
-        <div class="mini-cal">
-          <div class="mini-cal-month">JUNE</div>
-
-          <div class="mini-cal-grid">
-            <!-- 요일 -->
-            <div class="mini-cal-dow">SUN</div>
-            <div class="mini-cal-dow">MON</div>
-            <div class="mini-cal-dow">TUE</div>
-            <div class="mini-cal-dow">WED</div>
-            <div class="mini-cal-dow">THU</div>
-            <div class="mini-cal-dow">FRI</div>
-            <div class="mini-cal-dow">SAT</div>
-
-            <!-- 1주차 -->
-            <div class="mini-cal-day empty"></div> <!-- SUN 빈칸 -->
-            <div class="mini-cal-day">1</div>
-            <div class="mini-cal-day">2</div>
-            <div class="mini-cal-day">3</div>
-            <div class="mini-cal-day">4</div>
-            <div class="mini-cal-day">5</div>
-
-            <!-- 하트 있는 6일 -->
-            <div class="mini-cal-heart">
-              <svg viewBox="0 0 32 30" aria-hidden="true">
-                <path
-                  d="M16 27
-                     L6 17
-                     C2 13 2 7 6 5
-                     C9 3.8 11.8 4.6 13.7 6.4
-                     L16 8.7
-                     L18.3 6.4
-                     C20.2 4.6 23 3.8 26 5
-                     C30 7 30 13 26 17
-                     Z"
-                  fill="none"
-                  stroke="#e01b1b"
-                  stroke-width="1.8"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span>6</span>
-            </div>
-
-            <!-- 2주차 -->
-            <div class="mini-cal-day sun">7</div>
-            <div class="mini-cal-day">8</div>
-            <div class="mini-cal-day">9</div>
-            <div class="mini-cal-day">10</div>
-            <div class="mini-cal-day">11</div>
-            <div class="mini-cal-day">12</div>
-            <div class="mini-cal-day sat.red">13</div>
-
-            <!-- 3주차 -->
-            <div class="mini-cal-day sun">14</div>
-            <div class="mini-cal-day">15</div>
-            <div class="mini-cal-day">16</div>
-            <div class="mini-cal-day">17</div>
-            <div class="mini-cal-day">18</div>
-            <div class="mini-cal-day">19</div>
-            <div class="mini-cal-day sat red">20</div>
-
-            <!-- 4주차 -->
-            <div class="mini-cal-day sun">21</div>
-            <div class="mini-cal-day">22</div>
-            <div class="mini-cal-day">23</div>
-            <div class="mini-cal-day">24</div>
-            <div class="mini-cal-day">25</div>
-            <div class="mini-cal-day">26</div>
-            <div class="mini-cal-day sat red">27</div>
-
-            <!-- 5주차 -->
-            <div class="mini-cal-day sun">28</div>
-            <div class="mini-cal-day">29</div>
-            <div class="mini-cal-day">30</div>
-            <div class="mini-cal-day empty"></div>
-            <div class="mini-cal-day empty"></div>
-            <div class="mini-cal-day empty"></div>
-            <div class="mini-cal-day empty"></div>
-          </div>
-        </div>
+        <img src="calendar.png" alt="June 2026 calendar with a heart on the 6th" />
       </div>
     </section>
 
@@ -575,25 +559,77 @@
         <div style="height:12px"></div>
         <div class="grid two">
           <a class="btn brand" id="btnAddCal" href="#">Save to Calendar</a>
-          <a class="btn" target="_blank" rel="noopener" href="https://maps.google.com/?q=%EC%98%88%EC%8B%9D%EC%9E%A5">Open Map</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://maps.google.com/?q=%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%B8%94%EB%9E%91%20%EC%84%BC%ED%85%80">Open Map</a>
         </div>
       </div>
     </section>
 
-    <!-- Directions -->
-    <section class="section">
-      <div class="card">
-        <p class="muted" style="margin:0 0 6px">Directions</p>
-        <iframe
-          class="map"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.6071287621585!2d129.12945411139236!3d35.166417572644185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356892c7a3bb7249%3A0xaffba3b439d3a200!2z6re4656c65Oc67iU656RIOybqOuUqe2ZgA!5e0!3m2!1sko!2skr!4v1762822591444!5m2!1sko!2skr">
-        </iframe>
-        <p class="muted" style="margin-top:8px">
-          Please add details about public transportation and parking here.
-        </p>
+    <!-- Location & Directions (NEW) -->
+    <section class="loc-section" id="location">
+      <h2 class="loc-title">Location &amp; Directions</h2>
+
+      <div class="loc-card">
+        <div class="loc-main-header">
+          <div class="loc-icon">📍</div>
+          <div>
+            <p class="loc-name">[GRAND BLANC] Mirabelle Garden</p>
+            <p class="loc-addr">Busan, Haeundae-gu, Centum area (그랜드블랑 미라벨 가든)</p>
+            <p class="loc-addr">3rd Floor, Grand Blanc Wedding Hall</p>
+          </div>
+        </div>
+
+        <button type="button" class="loc-copy-row" id="btnCopyAddr">
+          <span class="loc-copy-text" id="locCopyText">
+            Busan, Haeundae-gu, Centum area, Grand Blanc Wedding Hall, Mirabelle Garden (3F)
+          </span>
+          <span class="loc-copy-icon">
+            📋 Copy Address
+          </span>
+        </button>
+
+        <div class="loc-actions">
+          <a
+            class="loc-btn loc-btn-primary"
+            href="https://maps.google.com/?q=%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%B8%94%EB%9E%91%20%EC%84%BC%ED%85%80"
+            target="_blank"
+            rel="noopener"
+          >
+            Google Maps
+          </a>
+          <a
+            class="loc-btn"
+            href="https://map.naver.com/p/search/%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%B8%94%EB%9E%91%20%EC%84%BC%ED%85%80"
+            target="_blank"
+            rel="noopener"
+          >
+            Naver Map
+          </a>
+        </div>
+      </div>
+
+      <div class="loc-card">
+        <p class="loc-subtitle">Getting There</p>
+
+        <div class="loc-item">
+          <p class="loc-item-title">🚇 By Subway</p>
+          <p class="loc-item-text">
+            Take Line 2 to Centum City Station. Use Exit 6 and walk about 5 minutes toward Grand Blanc Wedding Hall.
+          </p>
+        </div>
+
+        <div class="loc-item">
+          <p class="loc-item-title">🚌 By Bus</p>
+          <p class="loc-item-text">
+            Nearby stops: Centum City area bus stops. Please check Google Maps or Naver Map for the best route on the day.
+          </p>
+        </div>
+
+        <div class="loc-item">
+          <p class="loc-item-title">🚗 By Car</p>
+          <p class="loc-item-text">
+            Parking is available in the building. On-site staff will guide you to the wedding hall floor.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -728,6 +764,20 @@
       }
     });
 
+    // Copy address (Location card)
+    document.getElementById('btnCopyAddr')?.addEventListener('click', async () => {
+      const textEl = document.getElementById('locCopyText');
+      const text = textEl?.textContent?.trim() || '';
+      if (!text) return;
+
+      try{
+        await navigator.clipboard.writeText(text);
+        alert('Address copied.');
+      }catch{
+        alert('Copy failed. Please copy it manually.');
+      }
+    });
+
     // Calendar (ICS)
     document.getElementById('btnAddCal')?.addEventListener('click', () => {
       const title='Wedding of Daniel & Diana';
@@ -828,19 +878,14 @@ END:VCALENDAR`;
       const container = document.getElementById('petal-layer');
       if (!container) return;
 
-      const COUNT = 10; // 벚꽃 개수
+      const COUNT = 10;
 
       for (let i = 0; i < COUNT; i++) {
         const p = document.createElement('div');
         p.className = 'petal';
 
-        // HERO 안 가로 위치 (0~100%)
         p.style.left = (Math.random() * 100) + '%';
-
-        // 떨어지는 속도 (6~14초)
         p.style.animationDuration = (Math.random() * 8 + 6) + 's';
-
-        // 시작 타이밍 (음수 → 이미 떨어지고 있는 것처럼)
         p.style.animationDelay = (Math.random() * -14) + 's';
 
         container.appendChild(p);
