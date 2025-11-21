@@ -61,28 +61,31 @@
       overflow:hidden;
       z-index:2; /* 이미지 위, 배지 아래 */
     }
+    
+    /* 눈 + 벚꽃 중간 느낌 */
     .petal{
       position:absolute;
-      top:-15%;
-      width:18px;
-      height:26px;
-      background:linear-gradient(135deg,#ff9cbf,#ffe4f0); /* 더 잘 보이게 핑크 */
-      border-radius:70% 30% 70% 30%;
-      opacity:0.9;
-      box-shadow:0 0 8px rgba(255,160,190,0.8);
+      top:-8vh;                   /* 화면 위쪽에서 살짝 시작 */
+      width:12px;
+      height:16px;
+      background:radial-gradient(circle at 30% 30%, #ffffff, #ffeef7 60%, #ffd7e5 100%);
+      border-radius:55% 45% 60% 40%;
+      opacity:0.7;
+      box-shadow:0 0 4px rgba(255,220,235,0.6);
       animation:petal-fall linear infinite;
       transform-origin:center;
     }
+    
     @keyframes petal-fall{
       0%{
-        transform:translateY(-120%) rotate(0deg);
+        transform:translate3d(0,-10vh,0) rotate(0deg);
         opacity:0;
       }
-      10%{
-        opacity:1;
+      15%{
+        opacity:0.8;
       }
       100%{
-        transform:translateY(130%) rotate(360deg);
+        transform:translate3d(0,110vh,0) rotate(280deg);
         opacity:0;
       }
     }
