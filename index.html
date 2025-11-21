@@ -172,6 +172,71 @@
     .calendar .cap{font-size:14px;color:#64748b}
     .calendar img,.calendar svg{max-width:520px;width:100%;height:auto}
 
+    /* Mini calendar (JUNE with heart on 6th) */
+    .mini-cal{
+      font-family:"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:#111;
+      text-align:center;
+    }
+    .mini-cal-month{
+      font-family:"Playfair Display", "Times New Roman", serif;
+      font-size:28px;
+      letter-spacing:0.28em;
+      text-indent:0.28em;
+      margin-bottom:14px;
+    }
+    .mini-cal-grid{
+      display:grid;
+      grid-template-columns:repeat(7, 34px);
+      grid-auto-rows:30px;
+      justify-content:center;
+      gap:4px 12px;
+      font-size:14px;
+    }
+    .mini-cal-dow{
+      font-size:10px;
+      letter-spacing:0.22em;
+      text-indent:0.22em;
+      color:#444;
+    }
+    .mini-cal-day{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
+    .mini-cal-day.sun{
+      color:#d11c1c;
+    }
+    .mini-cal-day.sat.red{
+      color:#d11c1c;
+    }
+    .mini-cal-day.empty{
+      pointer-events:none;
+    }
+    .mini-cal-heart{
+      position:relative;
+      width:34px;
+      height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#e01b1b;
+      font-size:13px;
+      font-weight:500;
+    }
+    .mini-cal-heart svg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+    }
+    .mini-cal-heart span{
+      position:relative;
+      z-index:1;
+    }
+
     /* Countdown */
     .countdown-wrap{
       text-align:center;
@@ -367,10 +432,89 @@
       </div>
     </section>
 
-    <!-- Calendar -->
+    <!-- Calendar (하트 달린 JUNE 캘린더) -->
     <section class="section">
       <div class="calendar">
-        <img src="calendar.png" alt="June 2026 calendar with a heart on the 6th" />
+        <div class="mini-cal">
+          <div class="mini-cal-month">JUNE</div>
+
+          <div class="mini-cal-grid">
+            <!-- 요일 -->
+            <div class="mini-cal-dow">SUN</div>
+            <div class="mini-cal-dow">MON</div>
+            <div class="mini-cal-dow">TUE</div>
+            <div class="mini-cal-dow">WED</div>
+            <div class="mini-cal-dow">THU</div>
+            <div class="mini-cal-dow">FRI</div>
+            <div class="mini-cal-dow">SAT</div>
+
+            <!-- 1주차 -->
+            <div class="mini-cal-day empty"></div> <!-- SUN 빈칸 -->
+            <div class="mini-cal-day">1</div>
+            <div class="mini-cal-day">2</div>
+            <div class="mini-cal-day">3</div>
+            <div class="mini-cal-day">4</div>
+            <div class="mini-cal-day">5</div>
+
+            <!-- 하트 있는 6일 -->
+            <div class="mini-cal-heart">
+              <svg viewBox="0 0 32 30" aria-hidden="true">
+                <path
+                  d="M16 27
+                     L6 17
+                     C2 13 2 7 6 5
+                     C9 3.8 11.8 4.6 13.7 6.4
+                     L16 8.7
+                     L18.3 6.4
+                     C20.2 4.6 23 3.8 26 5
+                     C30 7 30 13 26 17
+                     Z"
+                  fill="none"
+                  stroke="#e01b1b"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>6</span>
+            </div>
+
+            <!-- 2주차 -->
+            <div class="mini-cal-day sun">7</div>
+            <div class="mini-cal-day">8</div>
+            <div class="mini-cal-day">9</div>
+            <div class="mini-cal-day">10</div>
+            <div class="mini-cal-day">11</div>
+            <div class="mini-cal-day">12</div>
+            <div class="mini-cal-day sat.red">13</div>
+
+            <!-- 3주차 -->
+            <div class="mini-cal-day sun">14</div>
+            <div class="mini-cal-day">15</div>
+            <div class="mini-cal-day">16</div>
+            <div class="mini-cal-day">17</div>
+            <div class="mini-cal-day">18</div>
+            <div class="mini-cal-day">19</div>
+            <div class="mini-cal-day sat red">20</div>
+
+            <!-- 4주차 -->
+            <div class="mini-cal-day sun">21</div>
+            <div class="mini-cal-day">22</div>
+            <div class="mini-cal-day">23</div>
+            <div class="mini-cal-day">24</div>
+            <div class="mini-cal-day">25</div>
+            <div class="mini-cal-day">26</div>
+            <div class="mini-cal-day sat red">27</div>
+
+            <!-- 5주차 -->
+            <div class="mini-cal-day sun">28</div>
+            <div class="mini-cal-day">29</div>
+            <div class="mini-cal-day">30</div>
+            <div class="mini-cal-day empty"></div>
+            <div class="mini-cal-day empty"></div>
+            <div class="mini-cal-day empty"></div>
+            <div class="mini-cal-day empty"></div>
+          </div>
+        </div>
       </div>
     </section>
 
